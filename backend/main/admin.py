@@ -1,7 +1,7 @@
 from django.contrib import admin
  
 # import the model Todo
-from .models import Task
+from .models import Task, DataInput
  
 # create a class for the admin-model integration
 class TaskAdmin(admin.ModelAdmin):
@@ -14,3 +14,8 @@ class TaskAdmin(admin.ModelAdmin):
 # using the register() method
 # of admin.site class
 admin.site.register(Task,TaskAdmin)
+
+class DataInputAdmin(admin.ModelAdmin):
+    list_display = ("id", "data")
+    
+admin.site.register(DataInput, DataInputAdmin)
