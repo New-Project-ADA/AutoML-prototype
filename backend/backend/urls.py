@@ -29,6 +29,8 @@ router = routers.DefaultRouter()
 # register the router
 router.register(r'tasks',views.TaskView, 'task')
 
+router.register(r'datainput', views.DataInput, 'datainput')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls))
