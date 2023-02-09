@@ -19,3 +19,6 @@ def upload_to(instance, filename):
 class DataInput(models.Model):
     id = models.AutoField(primary_key=True)
     data = models.FileField(upload_to=upload_to, null=True, blank=True)
+    
+def get_data(id):
+    return DataInput.objects.filter(id=id)
