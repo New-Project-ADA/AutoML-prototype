@@ -42,4 +42,3 @@ def monitor(request, filename):
     data = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
     data = data.to_json(orient = "records")[1:-1].replace('},{', '} {')
     return Response(data)
-
