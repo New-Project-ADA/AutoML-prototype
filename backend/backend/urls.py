@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from main import views
- 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # import routers from the REST framework
 # it is necessary for routing
 from rest_framework import routers
@@ -30,4 +32,4 @@ router.register(r'tasks',views.TaskView, 'task')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

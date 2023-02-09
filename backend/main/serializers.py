@@ -3,7 +3,7 @@
 from rest_framework import serializers
  
 # import the todo data model
-from .models import Task
+from .models import Task, DataInput
  
 # create a serializer class
 class MainSerializer(serializers.ModelSerializer):
@@ -12,3 +12,11 @@ class MainSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('id', 'title','description','completed')
+        
+class DataSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='id')
+    data = serializers.FileField(required=False)
+    
+    class Meta:
+        model = DataInput
+        fields = ['id', 'data']

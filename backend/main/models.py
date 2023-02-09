@@ -12,3 +12,10 @@ class Task(models.Model):
  
         #it will return the title
         return self.title
+
+def upload_to(instance, filename):
+    return 'data/{filename}'.format(filename=filename)
+
+class DataInput(models.Model):
+    id = models.AutoField(primary_key=True)
+    data = models.FileField(upload_to=upload_to, null=True, blank=True)
