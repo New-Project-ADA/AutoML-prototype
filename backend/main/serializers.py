@@ -14,7 +14,7 @@ class MainSerializer(serializers.ModelSerializer):
         fields = ('id', 'title','description','completed')
         
 class DataSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='id')
+    id = serializers.ReadOnlyField()
     data = serializers.FileField(required=False)
     
     class Meta:
