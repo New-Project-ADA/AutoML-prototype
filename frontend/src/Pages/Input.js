@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import './Input.css'
 import React,{Component} from 'react';
 
 class App extends Component {
@@ -36,7 +36,7 @@ class App extends Component {
 	
 	// Request made to the backend api
 	// Send formData object
-	axios.post("api/uploadfile", formData);
+	axios.post("datainput/", formData);
 	};
 	
 	// File content to be displayed after
@@ -48,7 +48,7 @@ class App extends Component {
 		return (
 		<div>
 			<h2>File Details:</h2>
-			<p>File Name: {this.state.selectedFile.name}</p>
+			<a href='http://localhost:3000/monitor'>File Name: {this.state.selectedFile.name}</a>
 
 			<p>File Type: {this.state.selectedFile.type}</p>
 
@@ -62,8 +62,7 @@ class App extends Component {
 	} else {
 		return (
 		<div>
-			<br />
-			<h4>Choose before Pressing the Upload button</h4>
+			
 		</div>
 		);
 	}
@@ -73,15 +72,17 @@ class App extends Component {
 	
 	return (
 		<div>
-			<h3>
-			File Upload using React!
-			</h3>
-			<div>
-				<input type="file" onChange={this.onFileChange} />
-				<button onClick={this.onFileUpload}>
-				Upload!
-				</button>
-			</div>
+            <div className='upload-container'>
+                <h3>
+                Input your data
+                </h3>
+                <div>
+                    <input type="file" onChange={this.onFileChange} />
+                    <button onClick={this.onFileUpload}>
+                    Upload!
+                    </button>
+                </div>
+            </div>
 		{this.fileData()}
 		</div>
 	);

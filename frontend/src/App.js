@@ -5,6 +5,7 @@ import axios from 'axios';
 import Input from "./Pages/Input"
 import Login from './Pages/Login';
 import Monitor from "./Pages/Monitor"
+import Navibar from './Components/Navibar';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 // create a class that extends the component
 class App extends Component {
