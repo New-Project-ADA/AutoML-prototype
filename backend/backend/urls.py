@@ -33,5 +33,6 @@ router.register(r'datainput', views.DataInput, 'datainput')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/monitor/<str:filename>', views.monitor, name='monitor')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
