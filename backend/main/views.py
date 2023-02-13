@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import MainSerializer, DataSerializer
-from .models import Task, DataInput
+from .models import Task, DataInput, get_data
 from rest_framework import permissions
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -37,8 +37,9 @@ class DataInput(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 @schema(DataInput())
-def monitor(request, filename):
+def monitor(request, id):
+    datas = get_data(int(id))
+    filename = datas.data.name[5:]
     path = settings.MEDIA_ROOT
-    data = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
-    data = data.to_json(orient = "records")[1:-1].replace('},{', '} {')
-    return Response(data)
+    data_csv = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
+    return Response(data_csv)
