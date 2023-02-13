@@ -39,14 +39,15 @@ class DataInput(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
-        super().create(request)
-        print(self.get_serializer)
-        df_series = data_for_plot(request.FILES[u'data'].name)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        # super().create(request)
+        name = request.FILES[u'data'].name
+        df_series = data_for_plot(name)
         #  Saving POST'ed file to storage
-        file = request.FILES[u'data']
-        default_storage.save(file.name, file)
-        '''return super().create(request)'''
-        return Response()
+        df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
+        return Response(serializer.data)
 
 @api_view(['GET'])
 @schema(DataInput())
