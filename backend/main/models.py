@@ -21,4 +21,7 @@ class DataInput(models.Model):
     data = models.FileField(upload_to=upload_to, null=True, blank=True)
     
 def get_data(id):
-    return DataInput.objects.filter(id=id)
+    for i in DataInput.objects.all():
+        if i.id == id:
+            data = i
+    return data
