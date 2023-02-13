@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.conf import settings
 from django.http import JsonResponse
+from django.core.files.storage import default_storage
 
 from rest_framework.decorators import api_view, schema
 from rest_framework.schemas import AutoSchema
@@ -17,6 +18,8 @@ import os
 import pandas as pd
 import json
 # Create your views here.
+
+from .plotting import * 
 
 class TaskView(viewsets.ModelViewSet):
     serializer_class = MainSerializer
@@ -34,6 +37,16 @@ class DataInput(viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def create(self, request):
+        super().create(request)
+        print(self.get_serializer)
+        df_series = data_for_plot(request.FILES[u'data'].name)
+        #  Saving POST'ed file to storage
+        file = request.FILES[u'data']
+        default_storage.save(file.name, file)
+        '''return super().create(request)'''
+        return Response()
 
 @api_view(['GET'])
 @schema(DataInput())
