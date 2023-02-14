@@ -16,6 +16,6 @@ class TaskAdmin(admin.ModelAdmin):
 admin.site.register(Task,TaskAdmin)
 
 class DataInputAdmin(admin.ModelAdmin):
-    list_display = ("id", "data")
+    list_display = ("id", "input_c1", "input_b1", "input_m1", "featured_dataframe")
     
 admin.site.register(DataInput, DataInputAdmin)

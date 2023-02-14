@@ -13,13 +13,10 @@ from django.core.files.storage import default_storage
 
 from rest_framework.decorators import api_view, schema
 from rest_framework.schemas import AutoSchema
-
 import os
 import pandas as pd
 import json
-# Create your views here.
-
-from .plotting import * 
+from .plotting import *
 
 class TaskView(viewsets.ModelViewSet):
     serializer_class = MainSerializer
@@ -39,14 +36,16 @@ class DataInput(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
+        c1 = request.FILES[u'input_c1'].name
+        b1 = request.FILES[u'input_b1'].name
+        m1 = request.FILES[u'input_m1'].name
+        df_series = data_for_plot(c1, b1, m1)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.validated_data['featured_dataframe'] = df_series.to_csv("featured_df.csv")
         self.perform_create(serializer)
-        # super().create(request)
-        name = request.FILES[u'data'].name
-        df_series = data_for_plot(name)
         #  Saving POST'ed file to storage
-        df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
+        # df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
         return Response(serializer.data)
 
 @api_view(['GET'])
@@ -56,4 +55,14 @@ def monitor(request, id):
     filename = datas.data.name[5:]
     path = settings.MEDIA_ROOT
     data_csv = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
-    return Response(data_csv)
+    return Response(data_csv.head(15))
+
+@api_view(['GET'])
+@schema(DataInput())
+def statistic(request, id):
+    datas = get_data(int(id))
+    filename = datas.data.name[5:]
+    path = settings.MEDIA_ROOT
+    data_csv = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
+    # stats = statistic_features(data_csv)
+    return Response(data_csv.head())

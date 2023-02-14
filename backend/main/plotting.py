@@ -128,3 +128,16 @@ def get_corr_plot(series):
     plt.title('Correlation to Label (Top 10 and Bottom 10)', fontsize=20)
     graph = get_graph()
     return graph
+
+def statistic_features(CAVE,AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
+    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(CAVE,AREA,date_start,date_end)
+    stats = df.describe()
+    if m_true:
+        stats = [df.describe(), df_m.describe()]
+    if b_true:
+        try:
+            stats += [df_b.describe()]
+        except:
+            stats = [df.describe(), df_b.describe()]
+    print(len(stats))
+    return stats

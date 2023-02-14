@@ -18,7 +18,10 @@ def upload_to(instance, filename):
 
 class DataInput(models.Model):
     id = models.AutoField(primary_key=True)
-    data = models.FileField(upload_to=upload_to, null=True, blank=True)
+    input_c1 = models.FileField(upload_to=upload_to, null=True, blank=True)
+    input_b1 = models.FileField(upload_to=upload_to, null=True, blank=True)
+    input_m1 = models.FileField(upload_to=upload_to, null=True, blank=True)
+    featured_dataframe = models.FileField(upload_to=upload_to, null=True, blank=True)
     
 def get_data(id):
     for i in DataInput.objects.all():
