@@ -39,10 +39,10 @@ class DataInput(viewsets.ModelViewSet):
         c1 = request.FILES[u'input_c1'].name
         b1 = request.FILES[u'input_b1'].name
         m1 = request.FILES[u'input_m1'].name
-        df_series = data_for_plot(c1, b1, m1)
+        # df_series = data_for_plot(c1, b1, m1)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.validated_data['featured_dataframe'] = df_series.to_csv("featured_df.csv")
+        # serializer.validated_data['featured_dataframe'] = df_series.to_csv("featured_df.csv")
         self.perform_create(serializer)
         #  Saving POST'ed file to storage
         # df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))

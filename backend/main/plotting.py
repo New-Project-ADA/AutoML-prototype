@@ -48,13 +48,14 @@ def load_data(filename,AREA,date_start=None,date_end=None):
     return df.sort_values('datetime').reset_index(drop=True), minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin
 
 def generate_features(CAVE,AREA,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
-    df, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(CAVE,AREA)
+    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(CAVE,AREA)
     df['date'] = df['datetime'].apply(lambda x: x.date())
-    
+    df_m['date'] = df_m['datetime'].apply(lambda x: x.date())
+    df_b['date'] = df_b['datetime'].apply(lambda x: x.date())
     dateindex = df.date.tolist()
     dt0,dt1 = dateindex[0],dateindex[-1]
     dfs = []
-    for df_,C in zip([df],['']):
+    for df_,C in zip([df,df_m,df_b],['',' M',' B']):
         df_count = df_.iloc[:][['date','k0']].copy()
         df_count.columns = ['date','mcount']
         df__agg = df_.drop(['bound','datetime'],1).groupby('date').agg(['sum','max','min','mean','median','std','skew']).fillna(0)
