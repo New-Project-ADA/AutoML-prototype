@@ -43,9 +43,9 @@ def load_data(filename,AREA,date_start=None,date_end=None):
     df['datetime'] = pd.to_datetime(df['datetime'])
     if date_start!=None and date_end!=None:
         df = df[df['datetime']>=date_start][df['datetime']<=date_end]
-        '''df_m = df_m[df_m['datetime']>=date_start][df_m['datetime']<=date_end]
-        df_b = df_b[df_b['datetime']>=date_start][df_b['datetime']<=date_end]'''
-    return df.sort_values('datetime').reset_index(drop=True), minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin
+        df_m = df_m[df_m['datetime']>=date_start][df_m['datetime']<=date_end]
+        df_b = df_b[df_b['datetime']>=date_start][df_b['datetime']<=date_end]
+    return df.sort_values('datetime').reset_index(drop=True), df_m.sort_values('datetime').reset_index(drop=True), df_b.sort_values('datetime').reset_index(drop=True), minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin
 
 def generate_features(CAVE,AREA,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(CAVE,AREA)
