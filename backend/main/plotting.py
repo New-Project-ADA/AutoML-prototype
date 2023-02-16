@@ -12,16 +12,6 @@ from .models import DataInput
 from .views import *
 from django.conf import settings
 
-def get_graph():
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    graph = base64.b64encode(image_png)
-    graph = graph.decode('utf-8')
-    buffer.close()
-    return graph
-
 def load_data(filename,AREA,date_start=None,date_end=None):
     path = settings.MEDIA_ROOT
     df = pd.read_csv(path + '/data/{filename}'.format(filename=filename)).drop('Unnamed: 0',1)
@@ -110,25 +100,6 @@ def df_corr_plot(series):
     bot10corr = df_corr['label'].dropna().sort_values()[-11:-1][::-1]
     return top10corr, bot10corr
 
-
-def get_corr_plot(series):
-    plt.figure(figsize=(12,6))
-    top10corr, bot10corr = df_corr_plot(series)
-    ppsbot = plt.bar(bot10corr.index, bot10corr.values, alpha=0.75, color='green')
-    ppstop = plt.bar(top10corr.index, top10corr.values, alpha=0.75, color='red')
-    for pp in list(ppsbot)+list(ppstop):
-        height = pp.get_height()
-        if height<0:
-            plt.text(x=pp.get_x() + pp.get_width() / 2, y=height+(height/10)-0.05, s="{}%".format(round(height*100,1)), ha='center', fontsize=8)
-        else:
-            plt.text(x=pp.get_x() + pp.get_width() / 2, y=height+(height/10), s="{}%".format(round(height*100,1)), ha='center', fontsize=8)
-    plt.axhline(0, color='k')
-    plt.xticks(rotation=45, ha='right', fontsize=18)
-    plt.yticks(fontsize=18)
-    plt.ylim([-1,1])
-    plt.title('Correlation to Label (Top 10 and Bottom 10)', fontsize=20)
-    graph = get_graph()
-    return graph
 
 def statistic_features(CAVE,AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(CAVE,AREA,date_start,date_end)
