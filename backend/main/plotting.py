@@ -152,15 +152,18 @@ def get_data_confusion_matrix(series,target_date,tnoutput=55, get_score=True):
 
     return cm, round(accuracy,6), next7day
 
+
+
 def plot_uncertainty(series,target_date,tnoutput=7):
-    plt.figure(figsize=(12,6))
     X = series.loc[target_date:].iloc[:tnoutput]
     index = X.index
     randomvalues = np.random.uniform(-1,1,[3,tnoutput])
-    data = {
-        'actual': X['v5|max'].values,
-        'median': X['v5|max'].values+randomvalues.mean(0),
-        'lower': X['v5|max'].values+randomvalues.min(0),
-        'upper': X['v5|max'].values+randomvalues.max(0),
-    }
+    data = []
+    for i in range(tnoutput):
+      data.append({
+          'actual': X['v5|max'].values[i],
+          'median': (X['v5|max'].values+randomvalues.mean(0))[i],
+          'lower': (X['v5|max'].values+randomvalues.min(0))[i],
+          'upper': (X['v5|max'].values+randomvalues.max(0))[i],
+      })
     return index, data
