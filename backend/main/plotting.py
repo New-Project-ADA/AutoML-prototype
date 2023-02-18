@@ -34,6 +34,8 @@ def load_data(df,df_m,df_b,AREA,date_start=None,date_end=None):
     if AREA in area_var:
         df = df[df['bound']==AREA]
     df['datetime'] = pd.to_datetime(df['datetime'])
+    df_m['datetime'] = pd.to_datetime(df_m['datetime'])
+    df_b['datetime'] = pd.to_datetime(df_b['datetime'])
     if date_start!=None and date_end!=None:
         df = df[df['datetime']>=date_start][df['datetime']<=date_end]
         df_m = df_m[df_m['datetime']>=date_start][df_m['datetime']<=date_end]

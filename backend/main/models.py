@@ -1,5 +1,5 @@
 from django.db import models
-
+import pandas as pd
 # Create your models here.
  
 class Task(models.Model):
@@ -21,10 +21,10 @@ class DataInput(models.Model):
     input_c1 = models.FileField(upload_to=upload_to, null=True, blank=True)
     input_b1 = models.FileField(upload_to=upload_to, null=True, blank=True)
     input_m1 = models.FileField(upload_to=upload_to, null=True, blank=True)
-    featured_dataframe = models.FileField(upload_to=upload_to, null=True, blank=True)
+    featured_df = models.JSONField(null=True, blank=True)
     
 def get_data(id):
     for i in DataInput.objects.all():
         if i.id == id:
             data = i
-    return data
+    return pd.read_json(data.featured_df)

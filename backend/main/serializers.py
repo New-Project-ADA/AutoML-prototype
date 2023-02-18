@@ -18,7 +18,7 @@ class DataSerializer(serializers.ModelSerializer):
     input_c1 = serializers.FileField(required=False)
     input_b1 = serializers.FileField(required=False)
     input_m1 = serializers.FileField(required=False)
-    featured_dataframe = serializers.FileField(required=False)
+    featured_df = serializers.JSONField(required=False)
     
     class Meta:
         model = DataInput

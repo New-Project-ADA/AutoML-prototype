@@ -36,13 +36,13 @@ class DataInput(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
-        c1 = request.FILES[u'input_c1'].name
-        b1 = request.FILES[u'input_b1'].name
-        m1 = request.FILES[u'input_m1'].name
-        # df_series = data_for_plot(c1, b1, m1)
+        c1 = pd.read_csv(request.FILES[u'input_c1']).drop('Unnamed: 0',1)
+        b1 = pd.read_csv(request.FILES[u'input_b1']).drop('Unnamed: 0',1)
+        m1 = pd.read_csv(request.FILES[u'input_m1']).drop('Unnamed: 0',1)
+        df_series = data_for_plot(c1, m1, b1)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # serializer.validated_data['featured_dataframe'] = df_series.to_csv("featured_df.csv")
+        serializer.validated_data['featured_df'] = df_series.to_json()
         self.perform_create(serializer)
         #  Saving POST'ed file to storage
         # df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
@@ -52,17 +52,10 @@ class DataInput(viewsets.ModelViewSet):
 @schema(DataInput())
 def monitor(request, id):
     datas = get_data(int(id))
-    filename = datas.data.name[5:]
-    path = settings.MEDIA_ROOT
-    data_csv = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
-    return Response(data_csv.head(15))
+    return Response(datas.head(15))
 
 @api_view(['GET'])
 @schema(DataInput())
 def statistic(request, id):
     datas = get_data(int(id))
-    filename = datas.data.name[5:]
-    path = settings.MEDIA_ROOT
-    data_csv = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
-    # stats = statistic_features(data_csv)
-    return Response(data_csv.head())
+    return Response(datas.head())
