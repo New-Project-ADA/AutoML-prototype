@@ -15,8 +15,11 @@ class MainSerializer(serializers.ModelSerializer):
         
 class DataSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    data = serializers.FileField(required=False)
+    input_c1 = serializers.FileField(required=False)
+    input_b1 = serializers.FileField(required=False)
+    input_m1 = serializers.FileField(required=False)
+    featured_df = serializers.JSONField(required=False)
     
     class Meta:
         model = DataInput
-        fields = ['id', 'data']
+        fields = ['id', 'input_c1', 'input_b1', 'input_m1', 'featured_df']

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import MainSerializer, DataSerializer
-from .models import Task, DataInput, get_data
+from .models import Task, DataInput, get_data, get_input
 from rest_framework import permissions
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -9,14 +9,19 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.conf import settings
 from django.http import JsonResponse
+from django.core.files.storage import default_storage
 
+import datetime
 from rest_framework.decorators import api_view, schema
 from rest_framework.schemas import AutoSchema
-
 import os
 import pandas as pd
 import json
-# Create your views here.
+from .plotting import *
+
+class DFSeries():
+    def __init__(self, data):
+        self.data = data
 
 class TaskView(viewsets.ModelViewSet):
     serializer_class = MainSerializer
@@ -35,11 +40,84 @@ class DataInput(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def create(self, request):
+        c1 = pd.read_csv(request.FILES[u'input_c1']).drop('Unnamed: 0',1)
+        b1 = pd.read_csv(request.FILES[u'input_b1']).drop('Unnamed: 0',1)
+        m1 = pd.read_csv(request.FILES[u'input_m1']).drop('Unnamed: 0',1)
+        df_series = data_for_plot(c1, m1, b1)
+        print(list(df_series.columns))
+        # df_series.reset_index(inplace=True)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.validated_data['featured_df'] = df_series.to_json()
+        self.perform_create(serializer)
+        #  Saving POST'ed file to storage
+        # df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
+        return Response(serializer.data)
+
 @api_view(['GET'])
 @schema(DataInput())
-def monitor(request, id):
-    datas = get_data(int(id))
-    filename = datas.data.name[5:]
-    path = settings.MEDIA_ROOT
-    data_csv = pd.read_csv(path + '/data/{filename}'.format(filename=filename))
-    return Response(data_csv)
+def corr_plot(request, id):
+    datas = get_data(id)
+    topTen, botTen = df_corr_plot(datas)
+    datas = {
+        "topTen": topTen,
+        "botTen": botTen
+    }
+    return Response(datas)
+
+@api_view(['GET'])
+@schema(DataInput())
+def get_all_features(request, id):
+    data = get_data(id)
+    return Response(list(data.columns))
+
+@api_view(['GET'])
+@schema(DataInput())
+def statistic(request, id, area, start_date, end_date):
+    c, m, b = get_input(id)
+    start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+    end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    stats = statistic_features(c, m, b, area, start_date, end_date, c_true=True,b_true=True,m_true=True)
+    return Response(stats)
+
+@api_view(['GET'])
+@schema(DataInput())
+def plot_fitur(request, id, target_date, fitur):
+    data = get_data(id)
+    feature = get_data_plot_fitur(data, target_date, [fitur])
+    return Response(feature)
+
+@api_view(['GET'])
+@schema(DataInput())
+def plot_risk(request, id, target_date):
+    data = get_data(id)
+    index, datas = get_data_plot_risk(data, target_date)
+    data_plot_risk = {
+        "index": index,
+        "data": datas
+    }
+    return Response(data_plot_risk)
+
+@api_view(['GET'])
+@schema(DataInput())
+def confusion_matrix(request, id, target_date):
+    data = get_data(id)
+    conf_m, accuracy, next7day = get_data_confusion_matrix(data, target_date)
+    data_cm = {
+        "cm": conf_m,
+        "accuracy": accuracy,
+        "next7day": next7day
+    }
+    return Response(data_cm)
+
+@api_view(['GET'])
+@schema(DataInput())
+def uncertainty(request, id, target_date):
+    data = get_data(id)
+    index, datas = plot_uncertainty(data, target_date)
+    data_uncertainty = {
+        "index": index,
+        "data": datas
+    }
+    return Response(data_uncertainty)
