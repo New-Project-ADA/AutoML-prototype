@@ -7,9 +7,10 @@ import Login from './Pages/Login';
 import Monitor from "./Pages/Monitor"
 import Navibar from './Components/Navibar';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // create a class that extends the component
 class App extends Component {
- 
+
   // add a constructor to take props
   constructor(props) {
     super(props);
@@ -24,13 +25,13 @@ class App extends Component {
   render() {
     return (
       <Router>
-        {/* <Navibar/> */}
+        <Navibar/>
         <Routes>
             {/* <Route exact path='/' element={<UserMap url={"backend-cae2kit7uq-as.a.run.app"}/>} /> */}
-            <Route path='/input' element={<Input/>} />
+            <Route path='/' element={<Input/>} />
             {/* <Route path='/admin-map' element={<AdminMap url={"backend-cae2kit7uq-as.a.run.app"}/>} /> */}
             <Route path='/login' element={<Login/>} />
-            <Route path='/monitor' element={<Monitor/>} />
+            <Route path='/monitor/:id' element={<Monitor/>} />
         </Routes>
         </Router>
     );

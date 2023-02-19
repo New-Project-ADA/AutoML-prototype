@@ -1,74 +1,95 @@
 import axios from 'axios';
 import './Input.css'
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 
-class App extends Component {
+export default function Input() {
 
-	state = {
-
-	// Initially, no file is selected
-	selectedFile: null
-	};
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [id, setID] = useState(null);
 	
 	// On file select (from the pop up)
-	onFileChange = event => {
+	const onFileChange = event => {
 	
 	// Update the state
-	this.setState({ selectedFile: event.target.files[0] });
+	setSelectedFile(event.target.files[0]);
 	
 	};
+
+	
 	
 	// On file upload (click the upload button)
-	onFileUpload = () => {
+	const onFileUpload = () => {
 	
 	// Create an object of formData
 	const formData = new FormData();
 	
 	// Update the formData object
 	formData.append(
-		"myFile",
-		this.state.selectedFile,
-		this.state.selectedFile.name
+		"data",
+		selectedFile
 	);
 	
 	// Details of the uploaded file
-	console.log(this.state.selectedFile);
+	console.log(selectedFile);
 	
 	// Request made to the backend api
 	// Send formData object
-	axios.post("datainput/", formData);
+	console.log(formData);
+	axios.post("http://localhost:8000/api/datainput/", formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		})
+		.then(function (res) {
+			window.location='http://localhost:3000/monitor/'+ res.data.id
+
+		}).catch((error) => {
+				return error.response;
+		}
+		);
+
+	console.log(id)
 	};
 	
 	// File content to be displayed after
 	// file upload is complete
-	fileData = () => {
 	
-	if (this.state.selectedFile) {
+	const fileData = () => {
+	
+	if (selectedFile) {
 		
 		return (
+			
 		<div>
-			<h2>File Details:</h2>
-			<a href='http://localhost:3000/monitor'>File Name: {this.state.selectedFile.name}</a>
+			
+            <div className='list-data'>
+				<div className='data-details'>
+					<h5>File Details:</h5>
+					<p>File Name: {selectedFile.name}</p>
 
-			<p>File Type: {this.state.selectedFile.type}</p>
+					<p>File Type: {selectedFile.type}</p>
 
-			<p>
-			Last Modified:{" "}
-			{this.state.selectedFile.lastModifiedDate.toDateString()}
-			</p>
+					<p>
+					Last Modified:{" "}
+					{selectedFile.lastModifiedDate.toDateString()}
+					</p>
+				</div>
+                <div>
+					<button onClick={onFileUpload} class="start-button">START</button>
+				</div>
+            </div>
+			
 
 		</div>
 		);
 	} else {
 		return (
-		<div>
-			
+		<div className='list-data'>
+			No datasets added
 		</div>
 		);
 	}
 	};
-	
-	render() {
 	
 	return (
 		<div>
@@ -76,17 +97,12 @@ class App extends Component {
                 <h3>
                 Input your data
                 </h3>
+				<br/>
                 <div>
-                    <input type="file" onChange={this.onFileChange} />
-                    <button onClick={this.onFileUpload}>
-                    Upload!
-                    </button>
+					<input class="form-control" onChange={onFileChange} type="file" aria-label="default input example"></input>
                 </div>
             </div>
-		{this.fileData()}
+			{fileData()}
 		</div>
 	);
-	}
 }
-
-export default App;

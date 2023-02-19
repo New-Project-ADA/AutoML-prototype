@@ -1,0 +1,49 @@
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: #ed6663 !important;
+}
+
+.css-1aquho2-MuiTabs-indicator {
+    background-color: #ed6663 !important;
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+    color: white !important;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+.top-monitor{
+    display: flex;
+}
+
+.bottom-monitor{
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 10px;
+    grid-gap: 50px;
+}
+
+.matrix{
+    padding: 2%;
+}
+
+.table{
+    padding: 2%;
+    padding-right: 5%;
+}
+
+.charts-container{
+    padding: 3%;
+    padding-top: 2%;
+}
+
+.plot{
+    background-color: #202C32;
+    border-radius: 5%;
+    padding: 3%;
+}
