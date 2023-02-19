@@ -22,4 +22,4 @@ class DataSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = DataInput
-        fields = ['id', 'input_c1', 'input_b1', 'input_m1', 'featured_dataframe']
+        fields = ['id', 'input_c1', 'input_b1', 'input_m1', 'featured_df']

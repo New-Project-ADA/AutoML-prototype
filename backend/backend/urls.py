@@ -34,6 +34,11 @@ router.register(r'datainput', views.DataInput, 'datainput')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/monitor/<str:id>', views.monitor, name='monitor'),
-    path('api/monitor/stats/<str:id>', views.statistic, name='statistic'),
+    path('api/features/<int:id>', views.get_all_features, name='all_features'),
+    path('api/monitor/corr/<int:id>', views.corr_plot, name='corr_plot'),
+    path('api/monitor/plot_fitur/<int:id>/<str:target_date>/<str:fitur>', views.plot_fitur, name='plot_fitur'),
+    path('api/monitor/plot_risk/<int:id>/<str:target_date>', views.plot_risk, name='plot_risk'),
+    path('api/monitor/confusion_matrix/<int:id>/<str:target_date>', views.confusion_matrix, name='confusion_matrix'),
+    path('api/monitor/uncertainty/<int:id>/<str:target_date>', views.uncertainty, name='uncertainty'),
+    path('api/monitor/stats/<int:id>/<str:area>/<str:start_date>/<str:end_date>', views.statistic, name='statistic'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

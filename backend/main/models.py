@@ -28,3 +28,10 @@ def get_data(id):
         if i.id == id:
             data = i
     return pd.read_json(data.featured_df)
+
+def get_input(id):
+    for i in DataInput.objects.all():
+        if i.id == id:
+            data = i
+    print(data)
+    return pd.read_csv(data.input_c1).drop('Unnamed: 0',1), pd.read_csv(data.input_m1).drop('Unnamed: 0',1), pd.read_csv(data.input_b1).drop('Unnamed: 0',1)

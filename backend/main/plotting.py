@@ -33,6 +33,8 @@ def load_data(df,df_m,df_b,AREA,date_start=None,date_end=None):
     area_var = ['D','A','B','C'] 
     if AREA in area_var:
         df = df[df['bound']==AREA]
+        df_m = df_m[df_m['bound']==AREA]
+        df_b = df_b[df_b['bound']==AREA]
     df['datetime'] = pd.to_datetime(df['datetime'])
     df_m['datetime'] = pd.to_datetime(df_m['datetime'])
     df_b['datetime'] = pd.to_datetime(df_b['datetime'])
@@ -42,8 +44,8 @@ def load_data(df,df_m,df_b,AREA,date_start=None,date_end=None):
         df_b = df_b[df_b['datetime']>=date_start][df_b['datetime']<=date_end]
     return df.sort_values('datetime').reset_index(drop=True), df_m.sort_values('datetime').reset_index(drop=True), df_b.sort_values('datetime').reset_index(drop=True), minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin
 
-def generate_features(df,df_m,df_b,AREA,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
-    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(df,df_m,df_b,AREA)
+def generate_features(c,m,b,AREA,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
+    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c,m,b,AREA)
     df['date'] = df['datetime'].apply(lambda x: x.date())
     df_m['date'] = df_m['datetime'].apply(lambda x: x.date())
     df_b['date'] = df_b['datetime'].apply(lambda x: x.date())
@@ -52,7 +54,7 @@ def generate_features(df,df_m,df_b,AREA,Zmax=None,Zmin=None,c_true=True,b_true=T
     dfs = []
     for df_,C in zip([df,df_m,df_b],['',' M',' B']):
         df_count = df_.iloc[:][['date','k0']].copy()
-        df_count.columns = ['date','mcount']
+        df_count.columns = ['date',C.lower()+'count']
         df__agg = df_.drop(['bound','datetime'],1).groupby('date').agg(['sum','max','min','mean','median','std','skew']).fillna(0)
         df__agg.columns = ['%s%s' % (a, C+'|%s' % b if b else '') for a, b in df__agg.columns]
         dfs += [pd.concat([df__agg, df_count.groupby('date').agg('count')], 1)]
@@ -110,16 +112,17 @@ def df_corr_plot(series):
     return top10corr, bot10corr
 
 
-def statistic_features(CAVE,AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
-    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(CAVE,AREA,date_start,date_end)
+def statistic_features(c, m, b, AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
+    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
     stats = df.describe()
+    index = stats.index.values.tolist()
     if m_true:
-        stats = [df.describe(), df_m.describe()]
+        stats = [index, df.describe(), df_m.describe()]
     if b_true:
         try:
             stats += [df_b.describe()]
         except:
-            stats = [df.describe(), df_b.describe()]
+            stats = [index, df.describe(), df_b.describe()]
     print(len(stats))
     return stats
 
