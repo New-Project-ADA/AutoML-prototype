@@ -7,11 +7,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.cm as cm
 from shapely.geometry import Point, Polygon
+import itertools
 
 from .models import DataInput
 from .views import *
 from django.conf import settings
 from sklearn.metrics import confusion_matrix, f1_score
+
 
 def load_data(df,df_m,df_b,AREA,date_start=None,date_end=None):
     path = settings.MEDIA_ROOT
@@ -132,7 +134,7 @@ def get_data_plot_fitur(series,target_date,fitur,window=30):
     print(X[fitur])
     return X[fitur], index
 
-def get_data_plot_risk(series,target_date,tnoutput=55, get_score=True):
+def get_data_plot_risk(series,target_date,tnoutput=7, get_score=True):
     X = series.loc[target_date:].iloc[:tnoutput]
     index = X.index
     randomvalues = np.random.uniform(0,1,[3,tnoutput])
@@ -154,7 +156,54 @@ def get_data_confusion_matrix(series,target_date,tnoutput=55, get_score=True):
     cm = confusion_matrix(data['actual'],data['predicted'], labels = [0,1,2,3])
     accuracy = np.trace(cm) / np.sum(cm).astype('float')
 
-    return cm, round(accuracy,6), next7day
+    return cm, accuracy, next7day
+
+def plot_confusion_matrix(cm,
+                          target_names,
+                          title='Confusion matrix',
+                          cmap=None,
+                          normalize=True):
+    
+  
+    accuracy = np.trace(cm) / np.sum(cm).astype('float')
+    misclass = 1 - accuracy
+
+    if cmap is None:
+        cmap = plt.get_cmap('Blues')
+
+    plt.rc('font', size=24)
+    PLT = plt.figure(figsize=(6*int(np.sqrt(len(target_names))), 4*int(np.sqrt(len(target_names)))))
+    plt.rc('font', size=24)
+    plt.imshow(cm, cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+
+    if target_names is not None:
+        tick_marks = np.arange(len(target_names))
+        plt.xticks(tick_marks, target_names, rotation=-90)
+        plt.yticks(tick_marks, target_names)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+
+    thresh = cm.max() / 1.5 if normalize else cm.max() / 2
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        if normalize:
+            plt.text(j, i, "{:0.4f}".format(cm[i, j]),
+                     horizontalalignment="center",
+                     color="white" if cm[i, j] > thresh else "black")
+        else:
+            plt.text(j, i, "{:,}".format(cm[i, j]),
+                     horizontalalignment="center",
+                     color="white" if cm[i, j] > thresh else "black")
+
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label (ACC={:0.4f})'.format(accuracy))
+    plt.close()
+    return PLT    
 
 
 
@@ -168,7 +217,9 @@ def plot_uncertainty(series,target_date,tnoutput=7):
           'index': str(index[i])[:10],
           'actual': X['v5|max'].values[i],
           'median': (X['v5|max'].values+randomvalues.mean(0))[i],
-          'lower': (X['v5|max'].values+randomvalues.min(0))[i],
-          'upper': (X['v5|max'].values+randomvalues.max(0))[i],
+          "lowerupper":[
+              (X['v5|max'].values+randomvalues.min(0))[i],
+              (X['v5|max'].values+randomvalues.max(0))[i]
+          ]
       })
     return data
