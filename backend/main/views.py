@@ -58,12 +58,24 @@ class DataInput(viewsets.ModelViewSet):
 @api_view(['GET'])
 @schema(DataInput())
 def corr_plot(request, id):
-    datas = get_data(id)
-    topTen, botTen = df_corr_plot(datas)
-    datas = {
-        "topTen": topTen,
-        "botTen": botTen
-    }
+    data = get_data(id)
+    topTen, botTen = df_corr_plot(data)
+    datas = []
+    for i in range(len(topTen)): 
+        dat = {
+            "index": topTen.index.tolist()[i],
+            "topTen": topTen.iloc[i]
+        }
+        datas.append(dat)
+    
+    for i in range(len(botTen)):
+        dat = {
+            "index": botTen.index.tolist()[i],
+            "botTen": botTen.iloc[i]
+        }
+        datas.append(dat)
+    
+    # corr_formatted = correlation_helper(datas)
     return Response(datas)
 
 @api_view(['GET'])
@@ -93,11 +105,13 @@ def plot_fitur(request, id, target_date, fitur):
 def plot_risk(request, id, target_date):
     data = get_data(id)
     index, datas = get_data_plot_risk(data, target_date)
+    index = index.strftime("%Y-%m-%d").tolist()
     data_plot_risk = {
         "index": index,
         "data": datas
     }
-    return Response(data_plot_risk)
+    data_formatted = plot_risk_helper(data_plot_risk)
+    return Response(data_formatted)
 
 @api_view(['GET'])
 @schema(DataInput())
@@ -113,11 +127,23 @@ def confusion_matrix(request, id, target_date):
 
 @api_view(['GET'])
 @schema(DataInput())
-def uncertainty(request, id, target_date):
+def uncertainty(request, id):
+    target_name = ['Low Risk','Normal','Risk','High Risk']
     data = get_data(id)
-    index, datas = plot_uncertainty(data, target_date)
+    index, datas = plot_uncertainty(data, target_name)
     data_uncertainty = {
         "index": index,
         "data": datas
     }
     return Response(data_uncertainty)
+
+def plot_risk_helper(data):
+    datas = []
+    for i in range(len(data["index"])):
+        dat = {
+            "index": data["index"][i],
+            "actual": data["data"]["actual"][i],
+            "predicted": data["data"]["predicted"][i]
+        }
+        datas.append(dat)
+    return datas
