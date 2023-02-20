@@ -90,15 +90,61 @@ def statistic(request, id, area, start_date, end_date):
     c, m, b = get_input(id)
     start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    data = []
+    datas = {"c": [],
+             "m": [],
+             "b": []
+            }
     stats = statistic_features(c, m, b, area, start_date, end_date, c_true=True,b_true=True,m_true=True)
-    return Response(stats)
+    for i in range(len(stats[0])):
+        dat = {
+            "index": stats[0][i],
+            "k0": stats[1]['k0'][i],
+            "k1": stats[1]['k1'][i],
+            "k2": stats[1]['k2'][i],
+            "v1": stats[1]['v1'][i],
+            "v2": stats[1]['v2'][i],
+            "v3": stats[1]['v3'][i],
+            "v4": stats[1]['v4'][i],
+            "v5": stats[1]['v5'][i],
+        }
+        datas["c"].append(dat)
+    
+    for i in range(len(stats[0])):
+        dat = {
+            "index": stats[0][i],
+            "k0": stats[2]['k0'][i],
+            "k1": stats[2]['k1'][i],
+            "k2": stats[2]['k2'][i],
+            "weight": stats[2]['weight'][i],
+        }
+        datas["m"].append(dat)
+        
+    for i in range(len(stats[0])):
+        dat = {
+            "index": stats[0][i],
+            "k0": stats[3]['k0'][i],
+            "k1": stats[3]['k1'][i],
+            "k2": stats[3]['k2'][i],
+        }
+        datas["b"].append(dat)
+    
+    data.append(datas)
+    return Response(data)
 
 @api_view(['GET'])
 @schema(DataInput())
 def plot_fitur(request, id, target_date, fitur):
     data = get_data(id)
-    feature = get_data_plot_fitur(data, target_date, [fitur])
-    return Response(feature)
+    feature, index = get_data_plot_fitur(data, target_date, [fitur])
+    datas = []
+    for i in range(len(index)):
+        dat = {
+            "data": feature[fitur][i],
+            "index": str(index[i])[:10]
+        }
+        datas.append(dat)
+    return Response(datas)
 
 @api_view(['GET'])
 @schema(DataInput())
@@ -115,9 +161,10 @@ def plot_risk(request, id, target_date):
 
 @api_view(['GET'])
 @schema(DataInput())
-def confusion_matrix(request, id, target_date):
+def confusion_matrix(request, id):
     data = get_data(id)
-    conf_m, accuracy, next7day = get_data_confusion_matrix(data, target_date)
+    target_name = ['Low Risk','Normal','Risk','High Risk']
+    conf_m, accuracy, next7day = get_data_confusion_matrix(data, target_name)
     data_cm = {
         "cm": conf_m,
         "accuracy": accuracy,
@@ -127,15 +174,10 @@ def confusion_matrix(request, id, target_date):
 
 @api_view(['GET'])
 @schema(DataInput())
-def uncertainty(request, id):
-    target_name = ['Low Risk','Normal','Risk','High Risk']
+def uncertainty(request, id, target_date):
     data = get_data(id)
-    index, datas = plot_uncertainty(data, target_name)
-    data_uncertainty = {
-        "index": index,
-        "data": datas
-    }
-    return Response(data_uncertainty)
+    datas = plot_uncertainty(data, target_date)
+    return Response(datas)
 
 def plot_risk_helper(data):
     datas = []
