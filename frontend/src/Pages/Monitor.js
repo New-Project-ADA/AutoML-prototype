@@ -9,6 +9,7 @@ import Tabs from '@mui/material/Tabs';
 import "./Monitor.css"
 import { useParams } from "react-router-dom";
 import PlotFitur from '../Components/Charts/Line';
+import PlotRisk from '../Components/Charts/Line2';
 import CorrLabel from '../Components/Charts/Bar';
 import BasicTable from '../Components/Tabel';
 import UncertaintyPlot from '../Components/Charts/Area';
@@ -39,16 +40,44 @@ export default function Monitor() {
   console.log(params.id)
 
   const baseURL = "http://localhost:8000/api/features/"+params.id;
-
+  var lineDataURL2 = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/"+line1Date+"/"+line1Fitur;
+  var lineDataURL = "http://localhost:8000/api/monitor/plot_fitur/3/1995-08-07/v1|mean"
+  var barDataURL = "http://localhost:8000/api/monitor/corr/"+params.id;
+  var areaDataURL = "http://localhost:8000/api/monitor/uncertainty/3/1995-08-07"
+  var line2DataURL = "http://localhost:8000/api/monitor/plot_risk/3/1995-07-01"
   React.useEffect(() => {
     axios.get(baseURL).then((res) => {
       setFeatureList(res.data);
       console.log(featureList[0]);
     });
-    axios.get().then((res) => {
-
+    axios.get(lineDataURL).then((res) => {
+      setLine1Data(res.data);
+      console.log(res.data);
+    });
+    axios.get(barDataURL).then((res) => {
+      setBarData(res.data);
+      console.log(res.data);
+    });
+    axios.get(areaDataURL).then((res) => {
+      setAreaData(res.data);
+      console.log(res.data);
+    });
+    axios.get(line2DataURL).then((res) => {
+      setLine2Data(res.data);
+      console.log(res.data);
     });
   }, []);
+
+  // var lineDataURL = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/"+line1Date+"/"+line1Fitur;
+  // var allFitur = "http://localhost:8000/api/features/"+params.id
+  // React.useEffect(() => {
+  //   axios.get(lineDataURL).then((res) => {
+  //     setLine1Data(res.data);
+  //     console.log(res.data);
+  //   });
+  //   axios.get(allFitur).then((res) => {
+  //     setLine1Fitur(res.data)
+  //   });
 
   return (
     // <Box sx={{ width: '100%', typography: 'body1', marginLeft: '6%', marginRight:'6%', marginTop:'10px' }}>
@@ -89,7 +118,7 @@ export default function Monitor() {
         <div className='plot'>
           <div className='plot-title'>
             <h3>Time Series Feature</h3>
-            <Dropdown list={featureList} setData={setLine1Date}/>
+            <Dropdown list={featureList} setData={setLine1Data}/>
             <Dropdown/>
           </div>
           <PlotFitur data={line1Data}/>
@@ -99,7 +128,7 @@ export default function Monitor() {
             <h3>Risk Classification</h3>
               <Dropdown/>
           </div>
-          <PlotFitur data={line2Data}/>
+          <PlotRisk data={line2Data}/>
         </div>
         <div className='plot'>
           <div className='plot-title'>

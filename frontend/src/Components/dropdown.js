@@ -3,13 +3,6 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 // import "../style.css";
 
-const urls = [
-  { value: "20090118_064750", label: "20090118_064750" },
-  { value: "20090119_211141", label: "20090119_211141" },
-  { value: "20100208_112154", label: "20100208_112154" },
-  { value: "20120915_163224", label: "20120915_163224" }
-];
-
 export const transformListJSON = (list = [])=> {
   let result = [];
 
@@ -24,8 +17,8 @@ export const transformListJSON = (list = [])=> {
 
 const Dropdown = (props) => {
   const handleChange = (selected) => {
-    props.stateChanger(selected);
-    props.setMseedSelected(selected);
+    props.setData(selected.value);
+    console.log(selected.value);
     
   };
   return (

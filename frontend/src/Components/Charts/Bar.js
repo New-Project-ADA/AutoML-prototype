@@ -14,7 +14,7 @@ import {
 
 import './Chart.css'
 
-const CorrLabel = () => {
+const CorrLabel = (props) => {
 //   const [data,setData] = useState([]);
   const data = [
     {
@@ -65,14 +65,14 @@ const CorrLabel = () => {
     <div className='responsive-container'>
       <div className='flex-container'>
         <ResponsiveContainer width="100%"height="100%">
-          <BarChart width={730} height={250} data={data}>
+          <BarChart width={730} height={250} data={props.data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+            <XAxis dataKey="index" />
+            <YAxis domain={[-1, 1]}/>
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#8884d8" />
-            <Bar dataKey="uv" fill="#82ca9d" />
+            <Bar dataKey="topTen" fill="#8884d8" />
+            <Bar dataKey="botTen" fill="#82ca9d" />
           </BarChart>
         </ResponsiveContainer>
       </div>

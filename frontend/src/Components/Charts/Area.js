@@ -15,7 +15,7 @@ import {
 
 import './Chart.css'
 
-const UncertaintyPlot = () => {
+const UncertaintyPlot = (props) => {
 //   const [data,setData] = useState([]);
 const rangeData = [
   {
@@ -99,15 +99,16 @@ const rangeData = [
           <ComposedChart 
             width={730}
             height={250}
-            data={rangeData}
+            data={props.data}
             margin={{
               top: 20, right: 20, bottom: 20, left: 20,
             }}
           >
-            <XAxis dataKey="day" />
+            <XAxis dataKey="index" />
             <YAxis />
-            <Area dataKey="temperature" stroke="#8884d8" fill="#8884d8" />
-            <Line dataKey="x" stroke="#FFFFFF"/>
+            <Area dataKey="lowerupper" stroke="#8884d8" fill="#8884d8" />
+            <Line dataKey="actual" stroke="#FF0000" dot={false}/>
+            <Line dataKey="median" stroke="#FFFFFF" dot={false}/>
             <Tooltip />
           </ComposedChart >
         </ResponsiveContainer>

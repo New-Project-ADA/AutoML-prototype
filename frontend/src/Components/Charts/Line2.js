@@ -14,7 +14,7 @@ import {
 
 import './Chart.css'
 
-const PlotFitur = (props) => {
+const PlotRisk = (props) => {
 //   const [data,setData] = useState([]);
   const data = [
     {
@@ -71,7 +71,8 @@ const PlotFitur = (props) => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="data" stroke="#8884d8" dot={false}/>
+                <Line type="monotone" dataKey="actual" stroke="#FF0000" dot={false}/>
+                <Line type="monotone" dataKey="predicted" stroke="#8884d8" dot={false}/>
             </LineChart>
         </ResponsiveContainer>
       </div>
@@ -79,4 +80,4 @@ const PlotFitur = (props) => {
     
   );
 };
-export default PlotFitur
+export default PlotRisk
