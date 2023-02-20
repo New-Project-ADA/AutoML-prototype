@@ -47,3 +47,8 @@
     border-radius: 5%;
     padding: 3%;
 }
+
+.plot-title{
+    display: flex;
+    justify-content: space-evenly;
+}

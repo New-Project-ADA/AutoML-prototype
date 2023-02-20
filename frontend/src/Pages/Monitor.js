@@ -12,11 +12,25 @@ import PlotFitur from '../Components/Charts/Line';
 import CorrLabel from '../Components/Charts/Bar';
 import BasicTable from '../Components/Tabel';
 import UncertaintyPlot from '../Components/Charts/Area';
-
+import Dropdown from '../Components/dropdown';
 
 export default function Monitor() {
   const [value, setValue] = React.useState('1');
+  const [featureList, setFeatureList] = React.useState([]);
+  const [line1Fitur, setLine1Fitur] = React.useState(null);
+  const [line1Date, setLine1Date] = React.useState(null);
+  const [line2Date, setLine2Date] = React.useState(null);
+  const [areaDate, setAreaDate] = React.useState(null);
 
+  const [tabel1, setTabel1] = React.useState(null);
+  const [tabel2, setTabel2] = React.useState(null);
+  const [tabel3, setlTabel3] = React.useState(null);
+  const [tabel4, setTabel4] = React.useState(null);
+
+  const [line1Data, setLine1Data] = React.useState(null);
+  const [areaData, setAreaData] = React.useState(null);
+  const [line2Data, setLine2Data] = React.useState(null);
+  const [barData, setBarData] = React.useState(null);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -24,11 +38,15 @@ export default function Monitor() {
   const params = useParams();
   console.log(params.id)
 
-  const baseURL = "http://localhost:8000/api/datainput/"+params.id;
+  const baseURL = "http://localhost:8000/api/features/"+params.id;
 
   React.useEffect(() => {
     axios.get(baseURL).then((res) => {
-      
+      setFeatureList(res.data);
+      console.log(featureList[0]);
+    });
+    axios.get().then((res) => {
+
     });
   }, []);
 
@@ -57,26 +75,45 @@ export default function Monitor() {
             <img src='https://scikit-learn.org/stable/_images/sphx_glr_plot_confusion_matrix_002.png' class="center"/>
           </div>
           <div className='table'>
+            <div className='plot-title'>
+              <Dropdown list={featureList}/>
+              <Dropdown list={featureList}/>
+              <Dropdown list={featureList}/>
+              <Dropdown list={featureList}/>
+            </div>
             <BasicTable/>
           </div>
         </div>
       </div>
       <div className='bottom-monitor'>
         <div className='plot'>
-          <h3>Time Series Feature</h3>
-          <PlotFitur/>
+          <div className='plot-title'>
+            <h3>Time Series Feature</h3>
+            <Dropdown list={featureList} setData={setLine1Date}/>
+            <Dropdown/>
+          </div>
+          <PlotFitur data={line1Data}/>
         </div>
         <div className='plot'>
-          <h3>Risk Classification</h3>
-          <PlotFitur/>
+          <div className='plot-title'>
+            <h3>Risk Classification</h3>
+              <Dropdown/>
+          </div>
+          <PlotFitur data={line2Data}/>
         </div>
         <div className='plot'>
-          <h3>Corr Label</h3>
-          <CorrLabel/>
+          <div className='plot-title'>
+            <h3>Corr Label</h3>
+          </div>
+          <CorrLabel data={barData}/>
         </div>
         <div className='plot'>
+         
+          <div className='plot-title'> 
           <h3>Uncertainty Plot</h3>
-          <UncertaintyPlot/>
+              <Dropdown />
+          </div>
+          <UncertaintyPlot data={areaData}/>
         </div>
         
       </div>
