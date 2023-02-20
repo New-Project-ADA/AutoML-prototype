@@ -128,8 +128,9 @@ def statistic_features(c, m, b, AREA,date_start=None,date_end=None,Zmax=None,Zmi
 
 def get_data_plot_fitur(series,target_date,fitur,window=30):
     X = series.loc[:target_date].iloc[-30:]
+    index = X.index
     print(X[fitur])
-    return X[fitur]
+    return X[fitur], index
 
 def get_data_plot_risk(series,target_date,tnoutput=55, get_score=True):
     X = series.loc[target_date:].iloc[:tnoutput]
@@ -164,9 +165,10 @@ def plot_uncertainty(series,target_date,tnoutput=7):
     data = []
     for i in range(tnoutput):
       data.append({
+          'index': str(index[i])[:10],
           'actual': X['v5|max'].values[i],
           'median': (X['v5|max'].values+randomvalues.mean(0))[i],
           'lower': (X['v5|max'].values+randomvalues.min(0))[i],
           'upper': (X['v5|max'].values+randomvalues.max(0))[i],
       })
-    return index, data
+    return data
