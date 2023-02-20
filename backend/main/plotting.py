@@ -134,7 +134,7 @@ def get_data_plot_fitur(series,target_date,fitur,window=30):
     print(X[fitur])
     return X[fitur], index
 
-def get_data_plot_risk(series,target_date,tnoutput=55, get_score=True):
+def get_data_plot_risk(series,target_date,tnoutput=7, get_score=True):
     X = series.loc[target_date:].iloc[:tnoutput]
     index = X.index
     randomvalues = np.random.uniform(0,1,[3,tnoutput])
@@ -217,7 +217,9 @@ def plot_uncertainty(series,target_date,tnoutput=7):
           'index': str(index[i])[:10],
           'actual': X['v5|max'].values[i],
           'median': (X['v5|max'].values+randomvalues.mean(0))[i],
-          'lower': (X['v5|max'].values+randomvalues.min(0))[i],
-          'upper': (X['v5|max'].values+randomvalues.max(0))[i],
+          "lowerupper":[
+              (X['v5|max'].values+randomvalues.min(0))[i],
+              (X['v5|max'].values+randomvalues.max(0))[i]
+          ]
       })
     return data
