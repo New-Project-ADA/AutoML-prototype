@@ -28,9 +28,20 @@ export default function BasicTable() {
           <TableRow>
             <TableCell>Index</TableCell>
             <TableCell align="right">c_k0</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align="right">c_k1</TableCell>
+            <TableCell align="right">c_k2</TableCell>
+            <TableCell align="right">c_v1</TableCell>
+            <TableCell align="right">c_v2</TableCell>
+            <TableCell align="right">_cv3</TableCell>
+            <TableCell align="right">c_v4</TableCell>
+            <TableCell align="right">c_v5</TableCell>
+            <TableCell align="right">m_k0</TableCell>
+            <TableCell align="right">m_k1</TableCell>
+            <TableCell align="right">m_k2</TableCell>
+            <TableCell align="right">m_weight</TableCell>
+            <TableCell align="right">b_k0</TableCell>
+            <TableCell align="right">b_k1</TableCell>
+            <TableCell align="right">b_k2</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
