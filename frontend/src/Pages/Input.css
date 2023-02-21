@@ -30,3 +30,8 @@ h3{
     height: 80%;
     color: white;
 }
+
+.input-box{
+    display: flex;
+    justify-content: space-between;
+}

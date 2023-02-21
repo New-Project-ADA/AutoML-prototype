@@ -18,15 +18,20 @@ import Dropdown from '../Components/dropdown';
 export default function Monitor() {
   const [value, setValue] = React.useState('1');
   const [featureList, setFeatureList] = React.useState([]);
+  const [dateList, setdateList] = React.useState([]);
   const [line1Fitur, setLine1Fitur] = React.useState(null);
   const [line1Date, setLine1Date] = React.useState(null);
   const [line2Date, setLine2Date] = React.useState(null);
   const [areaDate, setAreaDate] = React.useState(null);
 
-  const [tabel1, setTabel1] = React.useState(null);
-  const [tabel2, setTabel2] = React.useState(null);
-  const [tabel3, setlTabel3] = React.useState(null);
-  const [tabel4, setTabel4] = React.useState(null);
+  const [tabelArea, setTabelArea] = React.useState(null);
+  const [tabelStart, setTabelStart] = React.useState(null);
+  const [tabelEnd, setTabelEnd] = React.useState(null);
+
+  // const [tabelAreaList, setTabelAreaList] = React.useState(null);
+  const tabelAreaList = [
+    'a','b','c','d'
+  ]
 
   const [line1Data, setLine1Data] = React.useState(null);
   const [areaData, setAreaData] = React.useState(null);
@@ -44,9 +49,10 @@ export default function Monitor() {
   var lineDataURL2 = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/"+line1Date+"/"+line1Fitur;
   var lineDataURL = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/1995-08-07/v1|mean";
   var barDataURL = "http://localhost:8000/api/monitor/corr/"+params.id;
-  var areaDataURL = "http://localhost:8000/api/monitor/uncertainty/"+params.id+"/1995-08-07";
-  var line2DataURL = "http://localhost:8000/api/monitor/plot_risk/"+params.id+"/1995-07-01";
-  var tableURL = "http://localhost:8000/api/monitor/stats/3/c/1995-07-09/1995-07-16"
+  var areaDataURL = "http://localhost:8000/api/monitor/uncertainty/"+params.id+"/"+areaDate;
+  var line2DataURL = "http://localhost:8000/api/monitor/plot_risk/"+params.id+"/"+line2Date;
+  var tableURL = "http://localhost:8000/api/monitor/stats/"+params.id+"/"+tabelArea+"/"+tabelStart+"/"+tabelEnd;
+  var datesURL = "http://localhost:8000/api/all_dates/"+params.id;
   
   React.useEffect(() => {
     if(featureList.length==0){
@@ -58,11 +64,14 @@ export default function Monitor() {
     axios.get(barDataURL).then((res) => {
       setBarData(res.data);
     });
+    axios.get(datesURL).then((res) => {
+      setdateList(res.data);
+    });
     
   }, []);
 
   React.useEffect(() => {
-    axios.get(lineDataURL3).then((res) => {
+    axios.get(lineDataURL2).then((res) => {
       setLine1Data(res.data);
     });
   }, [line1Fitur,line1Date]);
@@ -115,10 +124,9 @@ export default function Monitor() {
           </div>
           <div className='table'>
             <div className='plot-title'>
-              <Dropdown list={featureList}/>
-              <Dropdown list={featureList}/>
-              <Dropdown list={featureList}/>
-              <Dropdown list={featureList}/>
+              <Dropdown list={tabelAreaList} setData={setTabelArea}/>
+              <Dropdown list={dateList} setData={setTabelStart}/>
+              <Dropdown list={dateList} setData={setTabelEnd}/>
             </div>
             <BasicTable/>
           </div>
@@ -129,14 +137,14 @@ export default function Monitor() {
           <div className='plot-title'>
             <h3>Time Series Feature</h3>
             <Dropdown list={featureList} setData={setLine1Fitur}/>
-            <Dropdown/>
+            <Dropdown list={dateList} setData={setLine1Date}/>
           </div>
           <PlotFitur data={line1Data}/>
         </div>
         <div className='plot'>
           <div className='plot-title'>
             <h3>Risk Classification</h3>
-              <Dropdown/>
+              <Dropdown list={dateList} setData={setLine2Date}/>
           </div>
           <PlotRisk data={line2Data}/>
         </div>
@@ -150,7 +158,7 @@ export default function Monitor() {
          
           <div className='plot-title'> 
           <h3>Uncertainty Plot</h3>
-              <Dropdown />
+              <Dropdown list={dateList} setData={setAreaDate}/>
           </div>
           <UncertaintyPlot data={areaData}/>
         </div>

@@ -144,7 +144,9 @@ export default function Input() {
 				<br/>
                 <div>
 					<input class="form-control" onChange={onFileChangeC} type="file" aria-label="default input example"></input>
+					<br></br>
 					<input class="form-control" onChange={onFileChangeB} type="file" aria-label="default input example"></input>
+					<br></br>
 					<input class="form-control" onChange={onFileChangeM} type="file" aria-label="default input example"></input>
                 </div>
             </div>
