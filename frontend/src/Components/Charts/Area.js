@@ -110,6 +110,7 @@ const rangeData = [
             <Line dataKey="actual" stroke="#FF0000" dot={false}/>
             <Line dataKey="median" stroke="#FFFFFF" dot={false}/>
             <Tooltip />
+            <Legend />
           </ComposedChart >
         </ResponsiveContainer>
       </div>

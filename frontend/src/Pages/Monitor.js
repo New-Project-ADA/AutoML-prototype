@@ -40,34 +40,44 @@ export default function Monitor() {
   console.log(params.id)
 
   const baseURL = "http://localhost:8000/api/features/"+params.id;
+  var lineDataURL3 = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/1995-08-07/"+line1Fitur;
   var lineDataURL2 = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/"+line1Date+"/"+line1Fitur;
-  var lineDataURL = "http://localhost:8000/api/monitor/plot_fitur/3/1995-08-07/v1|mean"
+  var lineDataURL = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/1995-08-07/v1|mean";
   var barDataURL = "http://localhost:8000/api/monitor/corr/"+params.id;
-  var areaDataURL = "http://localhost:8000/api/monitor/uncertainty/3/1995-08-07"
-  var line2DataURL = "http://localhost:8000/api/monitor/plot_risk/3/1995-07-01"
+  var areaDataURL = "http://localhost:8000/api/monitor/uncertainty/"+params.id+"/1995-08-07";
+  var line2DataURL = "http://localhost:8000/api/monitor/plot_risk/"+params.id+"/1995-07-01";
+  var tableURL = "http://localhost:8000/api/monitor/stats/3/c/1995-07-09/1995-07-16"
+  
   React.useEffect(() => {
-    axios.get(baseURL).then((res) => {
-      setFeatureList(res.data);
-      console.log(featureList[0]);
-    });
-    axios.get(lineDataURL).then((res) => {
-      setLine1Data(res.data);
-      console.log(res.data);
-    });
+    if(featureList.length==0){
+      axios.get(baseURL).then((res) => {
+        setFeatureList(res.data);
+        console.log(featureList[0]);
+      });
+    }
     axios.get(barDataURL).then((res) => {
       setBarData(res.data);
-      console.log(res.data);
     });
-    axios.get(areaDataURL).then((res) => {
-      setAreaData(res.data);
-      console.log(res.data);
-    });
-    axios.get(line2DataURL).then((res) => {
-      setLine2Data(res.data);
-      console.log(res.data);
-    });
+    
   }, []);
 
+  React.useEffect(() => {
+    axios.get(lineDataURL3).then((res) => {
+      setLine1Data(res.data);
+    });
+  }, [line1Fitur,line1Date]);
+
+  React.useEffect(() => {
+    axios.get(line2DataURL).then((res) => {
+      setLine2Data(res.data);
+    });
+  }, [line2Date]);
+
+  React.useEffect(() => {
+    axios.get(areaDataURL).then((res) => {
+      setAreaData(res.data);
+    });
+  }, [areaDate]);
   // var lineDataURL = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/"+line1Date+"/"+line1Fitur;
   // var allFitur = "http://localhost:8000/api/features/"+params.id
   // React.useEffect(() => {
@@ -118,7 +128,7 @@ export default function Monitor() {
         <div className='plot'>
           <div className='plot-title'>
             <h3>Time Series Feature</h3>
-            <Dropdown list={featureList} setData={setLine1Data}/>
+            <Dropdown list={featureList} setData={setLine1Fitur}/>
             <Dropdown/>
           </div>
           <PlotFitur data={line1Data}/>
