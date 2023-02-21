@@ -86,6 +86,14 @@ def get_all_features(request, id):
 
 @api_view(['GET'])
 @schema(DataInput())
+def get_all_dates(request, id):
+    data = get_data(id)
+    lst = list(data.index)
+    lst_str = [str(x)[:10] for x in lst]
+    return Response(lst_str)
+
+@api_view(['GET'])
+@schema(DataInput())
 def statistic(request, id, area, start_date, end_date):
     c, m, b = get_input(id)
     start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
@@ -189,3 +197,15 @@ def plot_risk_helper(data):
         }
         datas.append(dat)
     return datas
+
+def risk_helper(data):
+    if int(data) == 0:
+        data = "low risk"
+    elif int(data) == 1:
+        data = "normal"
+    elif int(data) == 2:
+        data = "risk"
+    elif int(data) == 3:
+        data = "high risk"
+        
+    return data

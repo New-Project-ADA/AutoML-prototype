@@ -35,6 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/features/<int:id>', views.get_all_features, name='all_features'),
+    path('api/all_dates/<int:id>', views.get_all_dates, name='all_dates'),
     path('api/monitor/corr/<int:id>', views.corr_plot, name='corr_plot'),
     path('api/monitor/plot_fitur/<int:id>/<str:target_date>/<str:fitur>', views.plot_fitur, name='plot_fitur'),
     path('api/monitor/plot_risk/<int:id>/<str:target_date>', views.plot_risk, name='plot_risk'),
