@@ -99,45 +99,28 @@ def statistic(request, id, area, start_date, end_date):
     start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
     data = []
-    datas = {"c": [],
-             "m": [],
-             "b": []
-            }
     stats = statistic_features(c, m, b, area, start_date, end_date, c_true=True,b_true=True,m_true=True)
     for i in range(len(stats[0])):
         dat = {
             "index": stats[0][i],
-            "k0": stats[1]['k0'][i],
-            "k1": stats[1]['k1'][i],
-            "k2": stats[1]['k2'][i],
-            "v1": stats[1]['v1'][i],
-            "v2": stats[1]['v2'][i],
-            "v3": stats[1]['v3'][i],
-            "v4": stats[1]['v4'][i],
-            "v5": stats[1]['v5'][i],
+            "c_k0": stats[1]['k0'][i],
+            "c_k1": stats[1]['k1'][i],
+            "c_k2": stats[1]['k2'][i],
+            "c_v1": stats[1]['v1'][i],
+            "c_v2": stats[1]['v2'][i],
+            "_cv3": stats[1]['v3'][i],
+            "c_v4": stats[1]['v4'][i],
+            "c_v5": stats[1]['v5'][i],
+            "m_k0": stats[2]['k0'][i],
+            "m_k1": stats[2]['k1'][i],
+            "m_k2": stats[2]['k2'][i],
+            "m_weight": stats[2]['weight'][i],
+            "b_k0": stats[3]['k0'][i],
+            "b_k1": stats[3]['k1'][i],
+            "b_k2": stats[3]['k2'][i],
         }
-        datas["c"].append(dat)
-    
-    for i in range(len(stats[0])):
-        dat = {
-            "index": stats[0][i],
-            "k0": stats[2]['k0'][i],
-            "k1": stats[2]['k1'][i],
-            "k2": stats[2]['k2'][i],
-            "weight": stats[2]['weight'][i],
-        }
-        datas["m"].append(dat)
+        data.append(dat)
         
-    for i in range(len(stats[0])):
-        dat = {
-            "index": stats[0][i],
-            "k0": stats[3]['k0'][i],
-            "k1": stats[3]['k1'][i],
-            "k2": stats[3]['k2'][i],
-        }
-        datas["b"].append(dat)
-    
-    data.append(datas)
     return Response(data)
 
 @api_view(['GET'])
@@ -169,10 +152,10 @@ def plot_risk(request, id, target_date):
 
 @api_view(['GET'])
 @schema(DataInput())
-def confusion_matrix(request, id):
+def confusion_matrix(request, id, target_date):
     data = get_data(id)
     target_name = ['Low Risk','Normal','Risk','High Risk']
-    conf_m, accuracy, next7day = get_data_confusion_matrix(data, target_name)
+    conf_m, accuracy, next7day = get_data_confusion_matrix(data, target_date)
     data_cm = {
         "cm": conf_m,
         "accuracy": accuracy,
