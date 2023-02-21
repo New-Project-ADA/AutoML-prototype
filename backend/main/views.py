@@ -108,7 +108,7 @@ def statistic(request, id, area, start_date, end_date):
             "c_k2": stats[1]['k2'][i],
             "c_v1": stats[1]['v1'][i],
             "c_v2": stats[1]['v2'][i],
-            "_cv3": stats[1]['v3'][i],
+            "c_v3": stats[1]['v3'][i],
             "c_v4": stats[1]['v4'][i],
             "c_v5": stats[1]['v5'][i],
             "m_k0": stats[2]['k0'][i],
