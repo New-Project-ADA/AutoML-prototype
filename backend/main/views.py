@@ -161,6 +161,9 @@ def confusion_matrix(request, id, target_date):
         "accuracy": accuracy,
         "next7day": next7day
     }
+    
+    # plt = plot_confusion_matrix(conf_m, target_name)
+    
     return Response(data_cm)
 
 @api_view(['GET'])
@@ -170,6 +173,14 @@ def uncertainty(request, id, target_date):
     datas = plot_uncertainty(data, target_date)
     return Response(datas)
 
+@api_view(['GET'])
+@schema(DataInput())
+def plot_area(request, id, area, date_start, date_end):
+    data = get_data(id)
+    return Response(data.head())
+#-------------------------------------------
+#-------------Helper Functions--------------
+#-------------------------------------------
 def plot_risk_helper(data):
     datas = []
     for i in range(len(data["index"])):

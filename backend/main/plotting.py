@@ -13,6 +13,7 @@ from .models import DataInput
 from .views import *
 from django.conf import settings
 from sklearn.metrics import confusion_matrix, f1_score
+from django.conf.urls.static import static
 
 
 def load_data(df,df_m,df_b,AREA,date_start=None,date_end=None):
@@ -162,7 +163,7 @@ def plot_confusion_matrix(cm,
                           target_names,
                           title='Confusion matrix',
                           cmap=None,
-                          normalize=True):
+                          normalize=False):
     
   
     accuracy = np.trace(cm) / np.sum(cm).astype('float')
@@ -198,13 +199,12 @@ def plot_confusion_matrix(cm,
                      horizontalalignment="center",
                      color="white" if cm[i, j] > thresh else "black")
 
-
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label (ACC={:0.4f})'.format(accuracy))
+    plt.savefig('images/confusion_matrix.png')
     plt.close()
-    return PLT    
-
+    return "Oke"
 
 
 def plot_uncertainty(series,target_date,tnoutput=7):
