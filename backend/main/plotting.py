@@ -173,7 +173,7 @@ def plot_confusion_matrix(cm,
         cmap = plt.get_cmap('Blues')
 
     plt.rc('font', size=24)
-    PLT = plt.figure(figsize=(6*int(np.sqrt(len(target_names))), 4*int(np.sqrt(len(target_names)))))
+    plt.figure(figsize=(6*int(np.sqrt(len(target_names))), 4*int(np.sqrt(len(target_names)))))
     plt.rc('font', size=24)
     plt.imshow(cm, cmap=cmap)
     plt.title(title)
@@ -202,9 +202,10 @@ def plot_confusion_matrix(cm,
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label (ACC={:0.4f})'.format(accuracy))
-    plt.savefig('images/confusion_matrix.png')
+    name = "confusion_matrix.png"
+    plt.savefig('images/'+name)
     plt.close()
-    return "Oke"
+    return name
 
 
 def plot_uncertainty(series,target_date,tnoutput=7):

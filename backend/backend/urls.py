@@ -18,6 +18,7 @@ from django.urls import path, include
 from main import views
 from django.conf import settings
 from django.conf.urls.static import static
+from main.views import *
 
 # import routers from the REST framework
 # it is necessary for routing
@@ -31,9 +32,13 @@ router.register(r'tasks',views.TaskView, 'task')
 
 router.register(r'datainput', views.DataInput, 'datainput')
 
+area = routers.DefaultRouter()
+area.register(r'area', views.Areas, 'area')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/area/<int:id>/<str:target_date>/', Areas.as_view({'get':'retrieve'})),
     path('api/features/<int:id>', views.get_all_features, name='all_features'),
     path('api/all_dates/<int:id>', views.get_all_dates, name='all_dates'),
     path('api/monitor/corr/<int:id>', views.corr_plot, name='corr_plot'),

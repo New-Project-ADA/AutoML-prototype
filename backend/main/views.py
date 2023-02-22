@@ -1,15 +1,11 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import MainSerializer, DataSerializer
-from .models import Task, DataInput, get_data, get_input
-from rest_framework import permissions
+from .serializers import MainSerializer, DataSerializer, AreaSerializer
+from .models import Task, DataInput, Area, get_data, get_input
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
 from django.conf import settings
-from django.http import JsonResponse
-from django.core.files.storage import default_storage
 
 import datetime
 from rest_framework.decorators import api_view, schema
@@ -27,6 +23,30 @@ class TaskView(viewsets.ModelViewSet):
     serializer_class = MainSerializer
     queryset = Task.objects.all()
     
+class Areas(viewsets.ModelViewSet):
+    serializer_class = AreaSerializer
+    queryset = Area.objects.all()
+    
+    def retrieve(self, request, id, target_date):
+        data = get_data(id)
+        target_name = ['Low Risk','Normal','Risk','High Risk']
+        conf_m, accuracy, next7day = get_data_confusion_matrix(data, target_date)
+        png_name = plot_confusion_matrix(conf_m, target_name)
+        url = request.build_absolute_uri(f'/media/data/{png_name}')
+        data_req = {
+            "area": url
+        }
+        
+        file_path = os.path.join(settings.BASE_DIR, 'images/'+png_name)
+        
+        Area.objects.create(area_pict=file_path)
+        
+        url = request.build_absolute_uri(f'/media/data/{png_name}')
+        data_req = {
+            "area": url
+        }
+        return Response(data_req)
+
 class DataInput(viewsets.ModelViewSet):
     queryset = DataInput.objects.order_by('-id')
     serializer_class = DataSerializer
@@ -178,6 +198,8 @@ def uncertainty(request, id, target_date):
 def plot_area(request, id, area, date_start, date_end):
     data = get_data(id)
     return Response(data.head())
+
+
 #-------------------------------------------
 #-------------Helper Functions--------------
 #-------------------------------------------

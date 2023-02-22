@@ -16,6 +16,9 @@ class Task(models.Model):
 def upload_to(instance, filename):
     return 'data/{filename}'.format(filename=filename)
 
+class Area(models.Model):
+    area_pict = models.ImageField(upload_to=upload_to)
+
 class DataInput(models.Model):
     id = models.AutoField(primary_key=True)
     input_c1 = models.FileField(upload_to=upload_to, null=True, blank=True)
