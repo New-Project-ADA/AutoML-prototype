@@ -75,9 +75,15 @@ class DataInput(viewsets.ModelViewSet):
         # df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
         return Response(serializer.data)
 
-# @api_view(['GET'])
-# @schema(DataInput())
-# def data_area(request, id, area, start_date, end_date):
+@api_view(['GET'])
+@schema(DataInput())
+def data_area(request, id, area, start_date, end_date):
+    c, m, b = get_input(id)
+    start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+    end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    
+    data = area_plotting(c, m, b, area, start_date, end_date, c_true=True,b_true=True,m_true=True)
+    return Response(data)
 
 @api_view(['GET'])
 @schema(DataInput())
@@ -122,51 +128,10 @@ def statistic(request, id, area, start_date, end_date):
     c, m, b = get_input(id)
     start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-    data = []
+    
     stats = statistic_features(c, m, b, area, start_date, end_date, c_true=True,b_true=True,m_true=True)
-    for i in range(len(stats[1])):
-        dat = {
-            "index": stats[0][0][i],
-            "count": stats[1]['count'][i],
-            "mean": stats[1]['mean'][i],
-            "std": stats[1]['std'][i],
-            "min": stats[1]['min'][i],
-            "25%": stats[1]['25%'][i],
-            "50%": stats[1]['50%'][i],
-            "75%": stats[1]['75%'][i],
-            "max": stats[1]['max'][i],
-        }
-        data.append(dat)
         
-    for i in range(len(stats[2])):
-        dat = {
-            "index": stats[0][1][i],
-            "count": stats[2]['count'][i],
-            "mean": stats[2]['mean'][i],
-            "std": stats[2]['std'][i],
-            "min": stats[2]['min'][i],
-            "25%": stats[2]['25%'][i],
-            "50%": stats[2]['50%'][i],
-            "75%": stats[2]['75%'][i],
-            "max": stats[2]['max'][i],
-        }
-        data.append(dat)
-        
-    for i in range(len(stats[3])):
-        dat = {
-            "index": stats[0][2][i],
-            "count": stats[3]['count'][i],
-            "mean": stats[3]['mean'][i],
-            "std": stats[3]['std'][i],
-            "min": stats[3]['min'][i],
-            "25%": stats[3]['25%'][i],
-            "50%": stats[3]['50%'][i],
-            "75%": stats[3]['75%'][i],
-            "max": stats[3]['max'][i],
-        }
-        data.append(dat)
-        
-    return Response(data)
+    return Response(stats)
 
 @api_view(['GET'])
 @schema(DataInput())
@@ -217,13 +182,6 @@ def uncertainty(request, id, target_date):
     data = get_data(id)
     datas = plot_uncertainty(data, target_date)
     return Response(datas)
-
-@api_view(['GET'])
-@schema(DataInput())
-def plot_area(request, id, area, date_start, date_end):
-    data = get_data(id)
-    return Response(data.head())
-
 
 #-------------------------------------------
 #-------------Helper Functions--------------
