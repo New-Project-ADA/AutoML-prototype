@@ -116,9 +116,9 @@ def df_corr_plot(series):
 
 def area_plotting(c, m, b, AREA, date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
-    df['series'] = 'c'
-    df_m['series'] = 'm'
-    df_b['series'] = 'b'
+    df['series'] = 20
+    df_m['series'] = 40
+    df_b['series'] = 60
 
     data = [
         {
