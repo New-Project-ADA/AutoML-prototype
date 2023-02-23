@@ -75,6 +75,10 @@ class DataInput(viewsets.ModelViewSet):
         # df_series.to_csv(settings.MEDIA_ROOT + '/dataseries/{name}'.format(name=name))
         return Response(serializer.data)
 
+# @api_view(['GET'])
+# @schema(DataInput())
+# def data_area(request, id, area, start_date, end_date):
+
 @api_view(['GET'])
 @schema(DataInput())
 def corr_plot(request, id):
@@ -120,24 +124,45 @@ def statistic(request, id, area, start_date, end_date):
     end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
     data = []
     stats = statistic_features(c, m, b, area, start_date, end_date, c_true=True,b_true=True,m_true=True)
-    for i in range(len(stats[0])):
+    for i in range(len(stats[1])):
         dat = {
-            "index": stats[0][i],
-            "c_k0": stats[1]['k0'][i],
-            "c_k1": stats[1]['k1'][i],
-            "c_k2": stats[1]['k2'][i],
-            "c_v1": stats[1]['v1'][i],
-            "c_v2": stats[1]['v2'][i],
-            "c_v3": stats[1]['v3'][i],
-            "c_v4": stats[1]['v4'][i],
-            "c_v5": stats[1]['v5'][i],
-            "m_k0": stats[2]['k0'][i],
-            "m_k1": stats[2]['k1'][i],
-            "m_k2": stats[2]['k2'][i],
-            "m_weight": stats[2]['weight'][i],
-            "b_k0": stats[3]['k0'][i],
-            "b_k1": stats[3]['k1'][i],
-            "b_k2": stats[3]['k2'][i],
+            "index": stats[0][0][i],
+            "count": stats[1]['count'][i],
+            "mean": stats[1]['mean'][i],
+            "std": stats[1]['std'][i],
+            "min": stats[1]['min'][i],
+            "25%": stats[1]['25%'][i],
+            "50%": stats[1]['50%'][i],
+            "75%": stats[1]['75%'][i],
+            "max": stats[1]['max'][i],
+        }
+        data.append(dat)
+        
+    for i in range(len(stats[2])):
+        dat = {
+            "index": stats[0][1][i],
+            "count": stats[2]['count'][i],
+            "mean": stats[2]['mean'][i],
+            "std": stats[2]['std'][i],
+            "min": stats[2]['min'][i],
+            "25%": stats[2]['25%'][i],
+            "50%": stats[2]['50%'][i],
+            "75%": stats[2]['75%'][i],
+            "max": stats[2]['max'][i],
+        }
+        data.append(dat)
+        
+    for i in range(len(stats[3])):
+        dat = {
+            "index": stats[0][2][i],
+            "count": stats[3]['count'][i],
+            "mean": stats[3]['mean'][i],
+            "std": stats[3]['std'][i],
+            "min": stats[3]['min'][i],
+            "25%": stats[3]['25%'][i],
+            "50%": stats[3]['50%'][i],
+            "75%": stats[3]['75%'][i],
+            "max": stats[3]['max'][i],
         }
         data.append(dat)
         

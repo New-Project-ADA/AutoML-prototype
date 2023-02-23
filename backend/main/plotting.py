@@ -117,15 +117,25 @@ def df_corr_plot(series):
 
 def statistic_features(c, m, b, AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
-    stats = df.describe()
-    index = stats.index.values.tolist()
+    
+    # transpose df describe and rename the indexes #
+    stats_c = df.describe().transpose()
+    index_c = help_func_index('c', stats_c.index.values.tolist())
+    stats_m = df_m.describe().transpose()
+    index_m = help_func_index('m', stats_m.index.values.tolist())
+    stats_b = df_b.describe().transpose()
+    index_b = help_func_index('b', stats_b.index.values.tolist())
+    # -------------------------------------------- #
+    
+    index = index_c
     if m_true:
-        stats = [index, df.describe(), df_m.describe()]
+        stats = [[index, index_m], stats_c, stats_m]
     if b_true:
         try:
-            stats += [df_b.describe()]
+            stats[0] += [index_b]
+            stats += [stats_b]
         except:
-            stats = [index, df.describe(), df_b.describe()]
+            stats = [[index,index_b], index_c, index_b]
     print(len(stats))
     return stats
 
@@ -224,3 +234,15 @@ def plot_uncertainty(series,target_date,tnoutput=7):
           ]
       })
     return data
+
+def help_func_index(type, lst):
+    res = []
+    for i in range(len(lst)):
+        if type == 'c':
+            res.append("c_"+lst[i])
+        elif type == 'b':
+            res.append("b_"+lst[i])
+        elif type == 'm':
+            res.append("m_"+lst[i])
+            
+    return res
