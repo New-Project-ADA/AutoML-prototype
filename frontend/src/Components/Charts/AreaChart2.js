@@ -17,9 +17,6 @@ function PlotlyComponent(props) {
 
   return (
       <Plot
-        onClick={(data) => {
-          console.log(data.points[0])
-        }}
 
         data={[
           {

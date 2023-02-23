@@ -226,7 +226,7 @@ export default function Monitor() {
   };
   
   const params = useParams();
-  console.log(params.id)
+  // console.log(params.id)
 
   const baseURL = "http://localhost:8000/api/features/"+params.id;
   var lineDataURL2 = "http://localhost:8000/api/monitor/plot_fitur/"+params.id+"/"+line1Date+"/"+line1Fitur;
@@ -246,6 +246,7 @@ export default function Monitor() {
 
   React.useEffect(() => {
       axios.get(areaURL).then((res) => {
+        console.log(res.data[0]);
         setMainData(res.data[0]);
       });
   }, [mainStart,mainStart,mainEnd]);
@@ -254,7 +255,7 @@ export default function Monitor() {
     if(featureList.length==0){
       axios.get(baseURL).then((res) => {
         setFeatureList(res.data);
-        console.log(featureList[0]);
+        // console.log(featureList[0]);
       });
     }
     axios.get(barDataURL).then((res) => {
@@ -294,7 +295,7 @@ export default function Monitor() {
     axios.get(heatmapURL).then((res) => {
       setHeatMapData(res.data.cm);
       setHeatMapAccuracy(res.data.accuracy)
-      console.log(res.data.cm);
+      // console.log(res.data.cm);
     });
   }, [heatMapDate]);
 
@@ -309,6 +310,7 @@ export default function Monitor() {
             <Dropdown list={dateList} setData={setMainEnd}/>
         </div>
         <div>
+          {console.log(mainData.series)}
           <PlotlyComponent x={mainData.x} y={mainData.y} z={mainData.z} series={mainData.series}/>
         </div>
         
@@ -316,7 +318,7 @@ export default function Monitor() {
         <div className='stat-table' id='stat-table'>
             <div className='plot-title'>
               <h3>Statistic Features</h3>
-              {console.log(tableRows)}
+              {/* {console.log(tableRows)} */}
               <Dropdown list={tabelAreaList} setData={setTabelArea}/>
               <Dropdown list={dateList} setData={setTabelStart}/>
               <Dropdown list={dateList} setData={setTabelEnd}/>
