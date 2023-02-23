@@ -116,21 +116,16 @@ def df_corr_plot(series):
 
 def area_plotting(c, m, b, AREA, date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
+    df['series'] = 'c'
+    df_m['series'] = 'm'
+    df_b['series'] = 'b'
+
     data = [
         {
-            "x": list(df['k0']),
-            "y": list(df['k1']),
-            "z": list(df['k2']),
-        },
-        {
-            "x": list(df_m['k0']),
-            "y": list(df_m['k1']),
-            "z": list(df_m['k2']),
-        },
-        {
-            "x": list(df_b['k0']),
-            "y": list(df_b['k1']),
-            "z": list(df_b['k2']),
+            "x": list(df['k0']) + list(df_m['k0']) + list(df_b['k0']),
+            "y": list(df['k1']) + list(df_m['k1']) + list(df_b['k1']),
+            "z": list(df['k2']) + list(df_m['k2']) + list(df_b['k2']),
+            "series": list(df['series']) + list(df_m['series']) + list(df_b['series']),
         }
     ]
     
