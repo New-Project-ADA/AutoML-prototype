@@ -3,7 +3,7 @@
 from rest_framework import serializers
  
 # import the todo data model
-from .models import Task, DataInput
+from .models import Task, DataInput, Area
  
 # create a serializer class
 class MainSerializer(serializers.ModelSerializer):
@@ -23,3 +23,10 @@ class DataSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataInput
         fields = ['id', 'input_c1', 'input_b1', 'input_m1', 'featured_df']
+        
+class AreaSerializer(serializers.ModelSerializer):
+    area_pict = serializers.ImageField()
+    
+    class Meta:
+        model = Area
+        fields = ['area_pict']

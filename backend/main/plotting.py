@@ -13,6 +13,7 @@ from .models import DataInput
 from .views import *
 from django.conf import settings
 from sklearn.metrics import confusion_matrix, f1_score
+from django.conf.urls.static import static
 
 
 def load_data(df,df_m,df_b,AREA,date_start=None,date_end=None):
@@ -116,15 +117,25 @@ def df_corr_plot(series):
 
 def statistic_features(c, m, b, AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
-    stats = df.describe()
-    index = stats.index.values.tolist()
+    
+    # transpose df describe and rename the indexes #
+    stats_c = df.describe().transpose()
+    index_c = help_func_index('c', stats_c.index.values.tolist())
+    stats_m = df_m.describe().transpose()
+    index_m = help_func_index('m', stats_m.index.values.tolist())
+    stats_b = df_b.describe().transpose()
+    index_b = help_func_index('b', stats_b.index.values.tolist())
+    # -------------------------------------------- #
+    
+    index = index_c
     if m_true:
-        stats = [index, df.describe(), df_m.describe()]
+        stats = [[index, index_m], stats_c, stats_m]
     if b_true:
         try:
-            stats += [df_b.describe()]
+            stats[0] += [index_b]
+            stats += [stats_b]
         except:
-            stats = [index, df.describe(), df_b.describe()]
+            stats = [[index,index_b], index_c, index_b]
     print(len(stats))
     return stats
 
@@ -162,7 +173,7 @@ def plot_confusion_matrix(cm,
                           target_names,
                           title='Confusion matrix',
                           cmap=None,
-                          normalize=True):
+                          normalize=False):
     
   
     accuracy = np.trace(cm) / np.sum(cm).astype('float')
@@ -172,7 +183,7 @@ def plot_confusion_matrix(cm,
         cmap = plt.get_cmap('Blues')
 
     plt.rc('font', size=24)
-    PLT = plt.figure(figsize=(6*int(np.sqrt(len(target_names))), 4*int(np.sqrt(len(target_names)))))
+    plt.figure(figsize=(6*int(np.sqrt(len(target_names))), 4*int(np.sqrt(len(target_names)))))
     plt.rc('font', size=24)
     plt.imshow(cm, cmap=cmap)
     plt.title(title)
@@ -198,13 +209,13 @@ def plot_confusion_matrix(cm,
                      horizontalalignment="center",
                      color="white" if cm[i, j] > thresh else "black")
 
-
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label (ACC={:0.4f})'.format(accuracy))
+    name = "confusion_matrix.png"
+    plt.savefig('images/'+name)
     plt.close()
-    return PLT    
-
+    return name
 
 
 def plot_uncertainty(series,target_date,tnoutput=7):
@@ -223,3 +234,15 @@ def plot_uncertainty(series,target_date,tnoutput=7):
           ]
       })
     return data
+
+def help_func_index(type, lst):
+    res = []
+    for i in range(len(lst)):
+        if type == 'c':
+            res.append("c_"+lst[i])
+        elif type == 'b':
+            res.append("b_"+lst[i])
+        elif type == 'm':
+            res.append("m_"+lst[i])
+            
+    return res
