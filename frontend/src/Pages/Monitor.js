@@ -238,7 +238,7 @@ export default function Monitor() {
     const element = document.getElementById(pageSection);
     if (element) {
       // 👇 Will scroll smoothly to the top of the next section
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth',block: "center" });
     }
   }, [pageSection]);
   
@@ -291,13 +291,16 @@ export default function Monitor() {
   }, [heatMapDate]);
 
   return (
-    <div className='charts-container' id='3D'>
-      {/* <PermanentDrawerLeft scrollTo={setPageSection}/>   */}
+    <div className='charts-container'>
+      <PermanentDrawerLeft scrollTo={setPageSection}/>  
       <div className='top-monitor' >
-        <div className='plot-title' >
-            <h3>3D Area Plot</h3>
+        <div className='area-title' id='3D'>
+            3D Area Plot
         </div>
-        <PlotlyComponent/>
+        <div>
+          <PlotlyComponent/>
+        </div>
+        
         <br></br>
         <div className='stat-table' id='stat-table'>
             <div className='plot-title'>
@@ -312,12 +315,14 @@ export default function Monitor() {
         <br></br>
           
           <div className='matrix'>
-            <div className='plot-title' id='matrix'>
-              <h3>Confusion Matrix</h3>
+            <div className='plot-title' >
+              <h3 >Confusion Matrix</h3>
               <Dropdown list={dateList} setData={setHeatMapDate}/>
             </div>
-            <HeatMapTable data={heatMapData}/>
-            <br></br>
+            <div  id='matrix'>
+              <HeatMapTable data={heatMapData}/>
+            </div>
+            <br ></br >
             <h7>Predicted Label (ACC={heatMapAccuracy})</h7>
           </div>
           
@@ -325,35 +330,35 @@ export default function Monitor() {
       <br></br>
       <div className='bottom-monitor'>
         <div className='plot'>
-          <div className='plot-title' id='line1'>
-            <h3>Time Series Feature</h3>
+          <div className='plot-title' >
+            <h4>Time Series Feature</h4>
             <Dropdown list={featureList} setData={setLine1Fitur}/>
             <Dropdown list={dateList} setData={setLine1Date}/>
           </div>
           <PlotFitur data={line1Data}/>
         </div>
         <div className='plot'>
-          <div className='plot-title' id='line2'>
-            <h3>Risk Classification</h3>
+          <div className='plot-title' id='line1'>
+            <h4>Risk Classification</h4>
               <Dropdown list={dateList} setData={setLine2Date}/>
           </div>
           <PlotRisk data={line2Data}/>
         </div>
         <div className='plot'>
-          <div className='plot-title' id='bar'>
-            <h3>Corr Label</h3>
+          <div className='plot-title' >
+            <h4>Correlation to Label</h4>
           </div>
           <CorrLabel data={barData}/>
         </div>
         <div className='plot'>
          
           <div className='plot-title' id='area'> 
-          <h3>Uncertainty Plot</h3>
+          <h4>Uncertainty Prediction</h4>
               <Dropdown list={dateList} setData={setAreaDate}/>
           </div>
           <UncertaintyPlot data={areaData}/>
         </div>
-        
+        <br></br>
       </div>
     </div>
     

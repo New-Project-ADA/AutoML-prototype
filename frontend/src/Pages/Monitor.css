@@ -6,7 +6,7 @@
 }
 
 .top-monitor{
-    margin: auto;
+    margin-left: 32%;
     width: 50%;
     /* border: 3px solid green; */
     /* padding: 10px; */
@@ -15,14 +15,7 @@
     width: 50%;
 }
 
-.bottom-monitor{
-    display: grid;
-    grid-template-columns: auto auto;
-    padding: 10px;
-    grid-gap: 50px;
-    /* width: 50%; */
-    
-}
+
 
 .matrix{
     padding: 2%;
@@ -50,7 +43,14 @@
 }
 
 
-
+.bottom-monitor{
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 10px;
+    grid-gap: 50px;
+    /* width: 50%; */
+    margin-left:18%;
+}
 
 .plot{
     background-color: white;
@@ -65,6 +65,13 @@
 .plot-title{
     display: flex;
     justify-content: space-evenly;
+}
+
+.area-title{
+    text-align: center;
+    margin-right: 10%;
+    margin-bottom: 5%;
+    font-size: 24px;
 }
 
 .css-1f2xuhi-MuiDrawer-docked .MuiDrawer-paper {

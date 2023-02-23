@@ -22,26 +22,19 @@ import { red } from '@mui/material/colors';
 // console.log(rows);
 export default function BasicTable(props) {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
       <Table sx={{ minWidth: 650, color: 'black' }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>Index</TableCell>
-            <TableCell align="right">c_k0</TableCell>
-            <TableCell align="right">c_k1</TableCell>
-            <TableCell align="right">c_k2</TableCell>
-            <TableCell align="right">c_v1</TableCell>
-            <TableCell align="right">c_v2</TableCell>
-            <TableCell align="right">c_v3</TableCell>
-            <TableCell align="right">c_v4</TableCell>
-            <TableCell align="right">c_v5</TableCell>
-            <TableCell align="right">m_k0</TableCell>
-            <TableCell align="right">m_k1</TableCell>
-            <TableCell align="right">m_k2</TableCell>
-            <TableCell align="right">m_weight</TableCell>
-            <TableCell align="right">b_k0</TableCell>
-            <TableCell align="right">b_k1</TableCell>
-            <TableCell align="right">b_k2</TableCell>
+            <TableCell align="right">Count</TableCell>
+            <TableCell align="right">Mean</TableCell>
+            <TableCell align="right">Std</TableCell>
+            <TableCell align="right">Min</TableCell>
+            <TableCell align="right">25%</TableCell>
+            <TableCell align="right">50%</TableCell>
+            <TableCell align="right">75%</TableCell>
+            <TableCell align="right">Max</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -53,21 +46,14 @@ export default function BasicTable(props) {
               <TableCell component="th" scope="row">
                 {row.index}
               </TableCell>
-              <TableCell align="right">{row.c_k0}</TableCell>
-              <TableCell align="right">{row.c_k1}</TableCell>
-              <TableCell align="right">{row.c_k2}</TableCell>
-              <TableCell align="right">{row.c_v1}</TableCell>
-              <TableCell align="right">{row.c_v2}</TableCell>
-              <TableCell align="right">{row.c_v3}</TableCell>
-              <TableCell align="right">{row.c_v4}</TableCell>
-              <TableCell align="right">{row.c_v5}</TableCell>
-              <TableCell align="right">{row.m_k0}</TableCell>
-              <TableCell align="right">{row.m_k1}</TableCell>
-              <TableCell align="right">{row.m_k2}</TableCell>
-              <TableCell align="right">{row.m_weight}</TableCell>
-              <TableCell align="right">{row.b_k0}</TableCell>
-              <TableCell align="right">{row.b_k1}</TableCell>
-              <TableCell align="right">{row.b_k2}</TableCell>
+              <TableCell align="right">{row.count}</TableCell>
+              <TableCell align="right">{row.mean}</TableCell>
+              <TableCell align="right">{row.std}</TableCell>
+              <TableCell align="right">{row.min}</TableCell>
+              <TableCell align="right">{row.dualima}</TableCell>
+              <TableCell align="right">{row.limanol}</TableCell>
+              <TableCell align="right">{row.tujuhlima}</TableCell>
+              <TableCell align="right">{row.max}</TableCell>
             </TableRow>
           ))}
         </TableBody>
