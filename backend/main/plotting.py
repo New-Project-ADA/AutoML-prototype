@@ -114,6 +114,28 @@ def df_corr_plot(series):
     bot10corr = df_corr['label'].dropna().sort_values()[-11:-1][::-1]
     return top10corr, bot10corr
 
+def area_plotting(c, m, b, AREA, date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
+    df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
+    data = [
+        {
+            "x": list(df['k0']),
+            "y": list(df['k1']),
+            "z": list(df['k2']),
+        },
+        {
+            "x": list(df_m['k0']),
+            "y": list(df_m['k1']),
+            "z": list(df_m['k2']),
+        },
+        {
+            "x": list(df_b['k0']),
+            "y": list(df_b['k1']),
+            "z": list(df_b['k2']),
+        }
+    ]
+    
+    return data
+    
 
 def statistic_features(c, m, b, AREA,date_start=None,date_end=None,Zmax=None,Zmin=None,c_true=True,b_true=True,m_true=True):
     df, df_m, df_b, minmag, maxmag, Xmax, Xmin, Ymax, Ymin, Zmax, Zmin = load_data(c, m, b,AREA,date_start,date_end)
@@ -136,8 +158,50 @@ def statistic_features(c, m, b, AREA,date_start=None,date_end=None,Zmax=None,Zmi
             stats += [stats_b]
         except:
             stats = [[index,index_b], index_c, index_b]
-    print(len(stats))
-    return stats
+            
+    data = []
+    for i in range(len(stats[1])):
+        dat = {
+            "index": stats[0][0][i],
+            "count": stats[1]['count'][i],
+            "mean": stats[1]['mean'][i],
+            "std": stats[1]['std'][i],
+            "min": stats[1]['min'][i],
+            "dualima": stats[1]['25%'][i],
+            "limapuluh": stats[1]['50%'][i],
+            "tujuhlima": stats[1]['75%'][i],
+            "max": stats[1]['max'][i],
+        }
+        data.append(dat)
+        
+    for i in range(len(stats[2])):
+        dat = {
+            "index": stats[0][1][i],
+            "count": stats[2]['count'][i],
+            "mean": stats[2]['mean'][i],
+            "std": stats[2]['std'][i],
+            "min": stats[2]['min'][i],
+            "dualima": stats[2]['25%'][i],
+            "limapuluh": stats[2]['50%'][i],
+            "tujuhlima": stats[2]['75%'][i],
+            "max": stats[2]['max'][i],
+        }
+        data.append(dat)
+        
+    for i in range(len(stats[3])):
+        dat = {
+            "index": stats[0][2][i],
+            "count": stats[3]['count'][i],
+            "mean": stats[3]['mean'][i],
+            "std": stats[3]['std'][i],
+            "min": stats[3]['min'][i],
+            "dualima": stats[3]['25%'][i],
+            "limapuluh": stats[3]['50%'][i],
+            "tujuhlima": stats[3]['75%'][i],
+            "max": stats[3]['max'][i],
+        }
+        data.append(dat)
+    return data
 
 def get_data_plot_fitur(series,target_date,fitur,window=30):
     X = series.loc[:target_date].iloc[-30:]

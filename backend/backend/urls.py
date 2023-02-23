@@ -32,13 +32,13 @@ router.register(r'tasks',views.TaskView, 'task')
 
 router.register(r'datainput', views.DataInput, 'datainput')
 
-area = routers.DefaultRouter()
-area.register(r'area', views.Areas, 'area')
+# area = routers.DefaultRouter()
+# area.register(r'area', views.Areas, 'area')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/area/<int:id>/<str:target_date>/', Areas.as_view({'get':'retrieve'})),
+    path('api/monitor/area/<int:id>/<str:area>/<str:start_date>/<str:end_date>', views.data_area, name='plot_area'),
     path('api/features/<int:id>', views.get_all_features, name='all_features'),
     path('api/all_dates/<int:id>', views.get_all_dates, name='all_dates'),
     path('api/monitor/corr/<int:id>', views.corr_plot, name='corr_plot'),
