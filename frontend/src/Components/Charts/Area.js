@@ -16,81 +16,7 @@ import {
 import './Chart.css'
 
 const UncertaintyPlot = (props) => {
-//   const [data,setData] = useState([]);
-const rangeData = [
-  {
-    "day": "05-01",
-    "temperature": [
-      -1,
-      10
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-02",
-    "temperature": [
-      2,
-      15
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-03",
-    "temperature": [
-      3,
-      12
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-04",
-    "temperature": [
-      4,
-      12
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-05",
-    "temperature": [
-      12,
-      16
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-06",
-    "temperature": [
-      5,
-      16
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-07",
-    "temperature": [
-      3,
-      12
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-08",
-    "temperature": [
-      0,
-      8
-    ],
-    "x":2,
-  },
-  {
-    "day": "05-09",
-    "temperature": [
-      -3,
-      5
-    ],
-    "x":2,
-  }
-]
+
 
   return (
     <div className='responsive-container'>
@@ -106,9 +32,9 @@ const rangeData = [
           >
             <XAxis dataKey="index" />
             <YAxis />
-            <Area dataKey="lowerupper" stroke="#8884d8" fill="#8884d8" />
+            <Area dataKey="lowerupper" stroke="#8884d8" fill="#00FFFF" />
             <Line dataKey="actual" stroke="#FF0000" dot={false}/>
-            <Line dataKey="median" stroke="#FFFFFF" dot={false}/>
+            <Line dataKey="median" stroke="#0000FF" dot={false}/>
             <Tooltip />
             <Legend />
           </ComposedChart >

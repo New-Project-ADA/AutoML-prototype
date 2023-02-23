@@ -51,7 +51,7 @@ export default function BasicTable(props) {
               <TableCell align="right">{row.std}</TableCell>
               <TableCell align="right">{row.min}</TableCell>
               <TableCell align="right">{row.dualima}</TableCell>
-              <TableCell align="right">{row.limanol}</TableCell>
+              <TableCell align="right">{row.limapuluh}</TableCell>
               <TableCell align="right">{row.tujuhlima}</TableCell>
               <TableCell align="right">{row.max}</TableCell>
             </TableRow>

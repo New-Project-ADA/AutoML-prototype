@@ -27,8 +27,8 @@ const CorrLabel = (props) => {
             <YAxis domain={[-1, 1]}/>
             <Tooltip />
             <Legend />
-            <Bar dataKey="topTen" fill="#8884d8" maxBarSize={true}/>
-            <Bar dataKey="botTen" fill="#82ca9d" maxBarSize={true}/>
+            <Bar dataKey="topTen" fill="#EE4B2B" maxBarSize={true}/>
+            <Bar dataKey="botTen" fill="#00FF00" maxBarSize={true}/>
           </BarChart>
         </ResponsiveContainer>
       </div>

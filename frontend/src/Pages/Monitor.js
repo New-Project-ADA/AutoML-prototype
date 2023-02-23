@@ -15,7 +15,6 @@ import BasicTable from '../Components/Tabel';
 import UncertaintyPlot from '../Components/Charts/Area';
 import Dropdown from '../Components/dropdown';
 import HeatMapTable from '../Components/Charts/HeatMapTable';
-import MainPlot from '../Components/Charts/AreaChart';
 import PlotlyComponent from '../Components/Charts/AreaChart2';
 import PermanentDrawerLeft from '../Components/Sidebar';
 
@@ -181,7 +180,7 @@ export default function Monitor() {
 
   // const [tabelAreaList, setTabelAreaList] = React.useState(null);
   const tabelAreaList = [
-    'a','b','c','d'
+    'A','B','C','D'
   ]
 
   const [line1Data, setLine1Data] = React.useState(null);
@@ -217,6 +216,10 @@ export default function Monitor() {
 
   const [pageSection,setPageSection] = React.useState('');
 
+  const [mainData, setMainData] = React.useState([]);
+  const [mainStart, setMainStart] = React.useState([]);
+  const [mainEnd, setMainEnd] = React.useState([]);
+  const [mainArea, setMainArea] = React.useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -233,14 +236,19 @@ export default function Monitor() {
   var tableURL = "http://localhost:8000/api/monitor/stats/"+params.id+"/"+tabelArea+"/"+tabelStart+"/"+tabelEnd;
   var datesURL = "http://localhost:8000/api/all_dates/"+params.id;
   var heatmapURL = "http://localhost:8000/api/monitor/confusion_matrix/"+params.id+"/"+heatMapDate;
+  var areaURL = "http://localhost:8000/api/monitor/area/"+params.id+"/"+mainArea+"/"+mainStart+"/"+mainEnd;
 
-  React.useEffect(() => {
-    const element = document.getElementById(pageSection);
+  const element = document.getElementById(pageSection);
     if (element) {
       // 👇 Will scroll smoothly to the top of the next section
       element.scrollIntoView({ behavior: 'smooth',block: "center" });
     }
-  }, [pageSection]);
+
+  React.useEffect(() => {
+      axios.get(areaURL).then((res) => {
+        setMainData(res.data[0]);
+      });
+  }, [mainStart,mainStart,mainEnd]);
   
   React.useEffect(() => {
     if(featureList.length==0){
@@ -294,11 +302,14 @@ export default function Monitor() {
     <div className='charts-container'>
       <PermanentDrawerLeft scrollTo={setPageSection}/>  
       <div className='top-monitor' >
-        <div className='area-title' id='3D'>
-            3D Area Plot
+        <div className='plot-title' id='3D'>
+            <h3>3D Area Plot</h3>
+            <Dropdown list={tabelAreaList} setData={setMainArea}/>
+            <Dropdown list={dateList} setData={setMainStart}/>
+            <Dropdown list={dateList} setData={setMainEnd}/>
         </div>
         <div>
-          <PlotlyComponent/>
+          <PlotlyComponent x={mainData.x} y={mainData.y} z={mainData.z} series={mainData.series}/>
         </div>
         
         <br></br>
