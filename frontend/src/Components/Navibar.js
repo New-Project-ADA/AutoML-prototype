@@ -5,7 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 // import { auth, db, logout } from '../../firebase'
-import '../style.css'
 
 function Navibar() {
   // const [user, loading, error] = useAuthState(auth);
@@ -13,7 +12,7 @@ function Navibar() {
   const navigate = useNavigate();
 
   return (
-    <Navbar expand="lg" className='bg-custom'>
+    <Navbar bg="primary" variant="dark" fixed="top">
       <Container className='container-lg'>
         <Navbar.Brand href="/">Judul</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

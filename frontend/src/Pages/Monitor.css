@@ -1,24 +1,18 @@
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
-    color: #ed6663 !important;
-}
+.charts-container{
+    padding-top: 2%;
+    margin-top: 5%;
+    /* background-color: #21ecf7; */
 
-.css-1aquho2-MuiTabs-indicator {
-    background-color: #ed6663 !important;
 }
-
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-    color: white !important;
-}
-
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-  }
 
 .top-monitor{
-    display: flex;
+    margin: auto;
+    width: 50%;
+    /* border: 3px solid green; */
+    /* padding: 10px; */
+}
+.side-top{
+    width: 50%;
 }
 
 .bottom-monitor{
@@ -26,29 +20,59 @@
     grid-template-columns: auto auto;
     padding: 10px;
     grid-gap: 50px;
+    /* width: 50%; */
+    
 }
 
 .matrix{
     padding: 2%;
+    color: black;
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 20%;
+    text-align: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5%;
 }
 
-.table{
+.js-plotly-plot{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.stat-table{
     padding: 2%;
+    border-radius: 5%;
     padding-right: 5%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-top: 20%;
+    margin-bottom: 20%;
 }
 
-.charts-container{
-    padding: 3%;
-    padding-top: 2%;
-}
+
+
 
 .plot{
-    background-color: #202C32;
+    background-color: white;
     border-radius: 5%;
     padding: 3%;
+    width: 90%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin: 0 auto
+
 }
 
 .plot-title{
     display: flex;
     justify-content: space-evenly;
+}
+
+.css-1f2xuhi-MuiDrawer-docked .MuiDrawer-paper {
+    width: 240px;
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+.bg-primary {
+    z-index: 1;
 }

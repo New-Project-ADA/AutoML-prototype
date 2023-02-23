@@ -8,22 +8,22 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { red } from '@mui/material/colors';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData('count', 159, 6.0, 24, 4.0),
-  createData('mean', 237, 9.0, 37, 4.3),
-  createData('std', 262, 16.0, 24, 6.0),
-  createData('min', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-console.log(rows);
-export default function BasicTable() {
+// const rows = [
+//   createData('count', 159, 6.0, 24, 4.0),
+//   createData('mean', 237, 9.0, 37, 4.3),
+//   createData('std', 262, 16.0, 24, 6.0),
+//   createData('min', 305, 3.7, 67, 4.3),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// ];
+// console.log(rows);
+export default function BasicTable(props) {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650, color: 'black' }} aria-label="simple table">
+      <Table sx={{ minWidth: 650, color: 'black' }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>Index</TableCell>
@@ -32,7 +32,7 @@ export default function BasicTable() {
             <TableCell align="right">c_k2</TableCell>
             <TableCell align="right">c_v1</TableCell>
             <TableCell align="right">c_v2</TableCell>
-            <TableCell align="right">_cv3</TableCell>
+            <TableCell align="right">c_v3</TableCell>
             <TableCell align="right">c_v4</TableCell>
             <TableCell align="right">c_v5</TableCell>
             <TableCell align="right">m_k0</TableCell>
@@ -45,18 +45,29 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {props.rows.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.index}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.c_k0}</TableCell>
+              <TableCell align="right">{row.c_k1}</TableCell>
+              <TableCell align="right">{row.c_k2}</TableCell>
+              <TableCell align="right">{row.c_v1}</TableCell>
+              <TableCell align="right">{row.c_v2}</TableCell>
+              <TableCell align="right">{row.c_v3}</TableCell>
+              <TableCell align="right">{row.c_v4}</TableCell>
+              <TableCell align="right">{row.c_v5}</TableCell>
+              <TableCell align="right">{row.m_k0}</TableCell>
+              <TableCell align="right">{row.m_k1}</TableCell>
+              <TableCell align="right">{row.m_k2}</TableCell>
+              <TableCell align="right">{row.m_weight}</TableCell>
+              <TableCell align="right">{row.b_k0}</TableCell>
+              <TableCell align="right">{row.b_k1}</TableCell>
+              <TableCell align="right">{row.b_k2}</TableCell>
             </TableRow>
           ))}
         </TableBody>
