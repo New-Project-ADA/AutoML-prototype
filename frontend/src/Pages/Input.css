@@ -10,24 +10,29 @@ body {
   box-sizing: border-box;
 }
 
-/* .body-cont{
+.body-cont{
     height: 100%;
     width: 100%;
       
     padding: 10px;
     font-size: 20px;
-    background-color: #0d6efd;
-} */
+    background-image: linear-gradient(to bottom right,#f90183,#a41cb3) !important;
+    /* background-color: #0d6efd; */
+}
 
 
 
 h3{
     color: #000000;
 }
+/* .input-title{
+  display: flex;
+  justify-content: space-evenly;
+} */
 .upload-container {
     margin-left: 35%;
     margin-right: 35%;
-    margin-top: 5%;
+    margin-top: 7%;
     padding: 2%;
     text-align: center;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -43,7 +48,7 @@ h3{
     margin-right: 25%;
     margin-bottom: 2%;
     padding: 2%;
-    height: 210px;
+    height: 240px;
     background-color: #ffffff;
     color: rgb(0, 0, 0);
     display:flex;
@@ -51,6 +56,12 @@ h3{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 2%;
 }
+/* 
+.data-details{
+  display: flex;
+  justify-content: space-evenly;
+  grid-gap: 15%;
+} */
 
 .start-button{
     border-radius: 50%;
@@ -74,7 +85,7 @@ h3{
   }
   
   #customers td, #customers th {
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     padding: 8px;
   }
   
@@ -92,8 +103,9 @@ h3{
   @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap');
 
 .submit-btn {
+  margin-top: 15%;
   font-family: 'Anek Malayalam', sans-serif;
-  background: #0d6efd;
+  background-image: linear-gradient(to bottom right,#f90183,#a41cb3) !important;
   border: none;
   outline: none;
   border-radius: 50%;

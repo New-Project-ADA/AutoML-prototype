@@ -2,6 +2,7 @@ import axios from 'axios';
 import './Input.css'
 import React,{useState} from 'react';
 import CustomButton from '../Components/StartButton';
+import Dropdown from '../Components/dropdown';
 
 export default function Input() {
 
@@ -58,33 +59,6 @@ export default function Input() {
 		selectedFileM
 	);
 
-	// formDataB.append(
-	// 	"data",
-	// 	selectedFileB
-	// );
-
-	// formDataM.append(
-	// 	"data",
-	// 	selectedFileM
-	// );
-	
-	// Details of the uploaded file
-	// console.log(selectedFile);
-	
-	// Request made to the backend api
-	// Send formData object
-	// console.log(formData);
-	// axios.post("http://localhost:8000/api/input_c1", formDataC, {
-	// 		headers: {
-	// 			"Content-Type": "multipart/form-data",
-	// 		},
-	// 	});
-
-	// axios.post("http://localhost:8000/api/input_b1", formDataB, {
-	// 		headers: {
-	// 			"Content-Type": "multipart/form-data",
-	// 		},
-	// 	});
 
 	axios.post("http://localhost:8000/api/datainput/", formData, {
 			headers: {
@@ -99,8 +73,6 @@ export default function Input() {
 	console.log(id)
 	};
 	
-	// File content to be displayed after
-	// file upload is complete
 	
 	const fileData = () => {
 	
@@ -133,18 +105,9 @@ export default function Input() {
 							<th>{selectedFileM.lastModifiedDate.toDateString()}</th>
 						</tr>
 					</table>
-					{/* <h5>File Details:</h5>
-					<p>File Names: {selectedFileC.name}, {selectedFileB.name}, {selectedFileM.name}</p>
-
-					<p>File Type: {selectedFileC.type}</p>
-
-					<p>
-					Last Modified:{" "}
-					{selectedFileC.lastModifiedDate.toDateString()}
-					</p> */}
+					
 				</div>
                 <div>
-					{/* <button onClick={onFileUpload} class="start-button">START</button> */}
 					<CustomButton
 						text="Start"
 						onSubmit={onFileUpload}
@@ -169,12 +132,14 @@ export default function Input() {
 	return (
 		<div className='body-cont'>
             <div className='upload-container'>
-                <h3>
-                Input your data
-                </h3>
+			<div className='input-title'>
+				{/* <img className={'icon-img'} src={require('../assets/enter24.png')}/> */}
+				<h3> Input your data</h3>
+			</div>
+                
 				<br/>
                 <div>
-					<input class="form-control" onChange={onFileChangeC} type="file" aria-label="default input example"></input>
+					<input class="form-control" onChange={onFileChangeC} type="file" aria-label="default input example" placeholder='Text'></input>
 					<br></br>
 					<input class="form-control" onChange={onFileChangeB} type="file" aria-label="default input example"></input>
 					<br></br>

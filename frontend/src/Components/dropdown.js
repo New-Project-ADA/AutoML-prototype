@@ -25,7 +25,7 @@ const Dropdown = (props) => {
     <form data-testid="dropdown">
       <Select
       data-testid="url"
-      placeholder="Select"
+      placeholder={props.placeholder}
         className="basic-single"
         classNamePrefix="select"
         defaultValue={''}

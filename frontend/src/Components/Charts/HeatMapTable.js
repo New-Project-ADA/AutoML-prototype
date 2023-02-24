@@ -1,16 +1,9 @@
 import React from "react";
-// import { Card } from "semantic-ui-react";
-// import { AppProvider, Button } from "@shopify/polaris";
-// import "@shopify/polaris/styles.css";
 import HeatMap from "react-heatmap-grid";
 
 const xLabels = ["Low Risk", "Normal", "Risk","High Risk"];
 const yLabels = ["Low Risk", "Normal", "Risk","High Risk"];
-// const data = new Array(yLabels.length)
-//   .fill(0)
-//   .map(() =>
-//     new Array(xLabels.length).fill(0).map(() => Math.floor(Math.random() * 100))
-//   );
+
 
 const HeatMapTable  = (props) => {
   

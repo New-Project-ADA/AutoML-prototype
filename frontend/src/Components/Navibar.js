@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 // import { auth, db, logout } from '../../firebase'
+import './style.css'
 
 function Navibar() {
   // const [user, loading, error] = useAuthState(auth);
@@ -12,9 +13,9 @@ function Navibar() {
   const navigate = useNavigate();
 
   return (
-    <Navbar bg="primary" variant="dark" fixed="top">
+    <Navbar expand="lg" bg="light" variant="light" fixed="top" className="bg-custom">
       <Container className='container-lg'>
-        <Navbar.Brand href="/">Judul</Navbar.Brand>
+        <Navbar.Brand href="/" > <img className={'icon-img'} src={require('../assets/machine-learning24.png')}/> Auto-ML</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

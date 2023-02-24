@@ -1,11 +1,12 @@
 .charts-container{
-    padding-top: 2%;
-    margin-top: 5%;
-    /* background-color: #21ecf7; */
+    /* padding-top: 2%;
+    margin-top: 5%; */
+    background-color: #f1f1f1;
 
 }
 
 .top-monitor{
+    margin-top: 7%;
     margin-left: 32%;
     width: 50%;
     /* border: 3px solid green; */
@@ -40,6 +41,7 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-top: 20%;
     margin-bottom: 20%;
+    background-color: white
 }
 
 
@@ -49,7 +51,7 @@
     padding: 10px;
     grid-gap: 50px;
     /* width: 50%; */
-    margin-left:18%;
+    margin-left:16%;
 }
 
 .plot{
@@ -64,7 +66,8 @@
 
 .plot-title{
     display: flex;
-    justify-content: space-evenly;
+    gap: 30px;
+    margin-left: 8px;
 }
 
 /* .area-title{
@@ -85,3 +88,24 @@
 .bg-primary {
     z-index: 1;
 }
+
+.bhn{
+    color: rgb(96, 54, 133);
+  }
+  
+  .bhz{
+    color: green;
+  }
+  
+  .bhe{
+    color: rgb(255, 204, 0);
+  }
+
+  .chart-legend{
+    /* position: absolute; */
+    display: flex;
+    justify-content: space-evenly;
+    min-width: 20vw;
+    margin-right: 5vw;
+    margin-left: 5vw;
+  }

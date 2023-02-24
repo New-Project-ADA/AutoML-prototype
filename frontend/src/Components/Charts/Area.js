@@ -1,4 +1,3 @@
-import { useEffect, useState,useRef } from 'react';
 import React from 'react';
 import {
   Area,
@@ -7,8 +6,6 @@ import {
   YAxis,
   Line,
   Legend,
-  ReferenceLine,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer
 } from 'recharts'

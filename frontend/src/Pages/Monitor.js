@@ -180,7 +180,7 @@ export default function Monitor() {
 
   // const [tabelAreaList, setTabelAreaList] = React.useState(null);
   const tabelAreaList = [
-    'A','B','C','D'
+    'a','b','c','d'
   ]
 
   const [line1Data, setLine1Data] = React.useState(null);
@@ -220,6 +220,8 @@ export default function Monitor() {
   const [mainStart, setMainStart] = React.useState([]);
   const [mainEnd, setMainEnd] = React.useState([]);
   const [mainArea, setMainArea] = React.useState([]);
+  const [toggle, setToggle] = React.useState(false)
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -238,18 +240,26 @@ export default function Monitor() {
   var heatmapURL = "http://localhost:8000/api/monitor/confusion_matrix/"+params.id+"/"+heatMapDate;
   var areaURL = "http://localhost:8000/api/monitor/area/"+params.id+"/"+mainArea+"/"+mainStart+"/"+mainEnd;
 
-  const element = document.getElementById(pageSection);
-    if (element) {
-      // 👇 Will scroll smoothly to the top of the next section
-      element.scrollIntoView({ behavior: 'smooth',block: "center" });
-    }
+ 
+
+    React.useEffect(() => {
+      const element = document.getElementById(pageSection);
+      if (element) {
+        // 👇 Will scroll smoothly to the top of the next section
+        element.scrollIntoView({ behavior: 'smooth',block: "center" });
+      }
+        
+    }, [toggle]);
 
   React.useEffect(() => {
+    if(mainArea && mainStart && mainEnd){
       axios.get(areaURL).then((res) => {
         console.log(res.data[0]);
         setMainData(res.data[0]);
       });
-  }, [mainStart,mainStart,mainEnd]);
+    }
+      
+  }, [mainArea,mainStart,mainEnd]);
   
   React.useEffect(() => {
     if(featureList.length==0){
@@ -268,60 +278,74 @@ export default function Monitor() {
   }, []);
 
   React.useEffect(() => {
-    axios.get(lineDataURL2).then((res) => {
-      setLine1Data(res.data);
-    });
+    if(line1Fitur && line1Date){
+      axios.get(lineDataURL2).then((res) => {
+        setLine1Data(res.data);
+      });
+    }
   }, [line1Fitur,line1Date]);
 
   React.useEffect(() => {
-    axios.get(line2DataURL).then((res) => {
-      setLine2Data(res.data);
-    });
+    if(line2Date){
+      axios.get(line2DataURL).then((res) => {
+        setLine2Data(res.data);
+      });
+    }
   }, [line2Date]);
 
   React.useEffect(() => {
-    axios.get(areaDataURL).then((res) => {
-      setAreaData(res.data);
-    });
+    if(areaDate){
+      axios.get(areaDataURL).then((res) => {
+        setAreaData(res.data);
+      });
+    }
+    
   }, [areaDate]);
 
   React.useEffect(() => {
-    axios.get(tableURL).then((res) => {
-      setTableRows(res.data);
-    });
+    if(tabelArea && tabelStart && tabelEnd){
+      axios.get(tableURL).then((res) => {
+        setTableRows(res.data);
+      });
+    }
   }, [tabelArea, tabelStart, tabelEnd]);
 
   React.useEffect(() => {
-    axios.get(heatmapURL).then((res) => {
-      setHeatMapData(res.data.cm);
-      setHeatMapAccuracy(res.data.accuracy)
-      // console.log(res.data.cm);
-    });
+    if(heatMapDate){
+      axios.get(heatmapURL).then((res) => {
+        setHeatMapData(res.data.cm);
+        setHeatMapAccuracy(res.data.accuracy)
+        // console.log(res.data.cm);
+      });
+    }
   }, [heatMapDate]);
 
   return (
     <div className='charts-container'>
-      <PermanentDrawerLeft scrollTo={setPageSection}/>  
+      <PermanentDrawerLeft setToggle={setToggle} toggle={toggle} scrollTo={setPageSection}/>  
       <div className='top-monitor' >
         <div className='plot-title' id='3D'>
+          <img className={'icon-img'} src={require('../assets/scatter-plot24.png')}/>
             <h3>3D Area Plot</h3>
-            <Dropdown list={tabelAreaList} setData={setMainArea}/>
-            <Dropdown list={dateList} setData={setMainStart}/>
-            <Dropdown list={dateList} setData={setMainEnd}/>
+            <Dropdown placeholder = {'Area'} list={tabelAreaList} setData={setMainArea}/>
+            <Dropdown placeholder = {'Start Date'} list={dateList} setData={setMainStart}/>
+            <Dropdown placeholder = {'End Date'} list={dateList} setData={setMainEnd}/>
         </div>
         <div>
           {console.log(mainData.series)}
           <PlotlyComponent x={mainData.x} y={mainData.y} z={mainData.z} series={mainData.series}/>
+          <div className="chart-legend"><span>Series (Color): </span> <span className="bhn">o C</span><span className="bhz">o M</span><span className="bhe">o B</span></div>
         </div>
         
         <br></br>
         <div className='stat-table' id='stat-table'>
             <div className='plot-title'>
+            <img className={'icon-img'} src={require('../assets/table24.png')}/>
               <h3>Statistic Features</h3>
               {/* {console.log(tableRows)} */}
-              <Dropdown list={tabelAreaList} setData={setTabelArea}/>
-              <Dropdown list={dateList} setData={setTabelStart}/>
-              <Dropdown list={dateList} setData={setTabelEnd}/>
+              <Dropdown placeholder = {'Area'} list={tabelAreaList} setData={setTabelArea}/>
+              <Dropdown  placeholder = {'Start Date'} list={dateList} setData={setTabelStart}/>
+              <Dropdown  placeholder = {'End Date'} list={dateList} setData={setTabelEnd}/>
             </div>
             <BasicTable rows={tableRows}/>
         </div>
@@ -329,8 +353,9 @@ export default function Monitor() {
           
           <div className='matrix'>
             <div className='plot-title' >
+            <img className={'icon-img'} src={require('../assets/evaluation24.png')}/>
               <h3 >Confusion Matrix</h3>
-              <Dropdown list={dateList} setData={setHeatMapDate}/>
+              <Dropdown placeholder = {'Date'} list={dateList} setData={setHeatMapDate}/>
             </div>
             <div  id='matrix'>
               <HeatMapTable data={heatMapData}/>
@@ -344,21 +369,24 @@ export default function Monitor() {
       <div className='bottom-monitor'>
         <div className='plot'>
           <div className='plot-title' >
+          <img className={'icon-img'} src={require('../assets/stats24.png')}/>
             <h4>Time Series Feature</h4>
-            <Dropdown list={featureList} setData={setLine1Fitur}/>
-            <Dropdown list={dateList} setData={setLine1Date}/>
+            <Dropdown placeholder = {'Feature'} list={featureList} setData={setLine1Fitur}/>
+            <Dropdown placeholder = {'Date'} list={dateList} setData={setLine1Date}/>
           </div>
           <PlotFitur data={line1Data}/>
         </div>
         <div className='plot'>
           <div className='plot-title' id='line1'>
+          <img className={'icon-img'} src={require('../assets/stats24.png')}/>
             <h4>Risk Classification</h4>
-              <Dropdown list={dateList} setData={setLine2Date}/>
+              <Dropdown placeholder = {'Date'} list={dateList} setData={setLine2Date}/>
           </div>
           <PlotRisk data={line2Data}/>
         </div>
         <div className='plot'>
           <div className='plot-title' >
+          <img className={'icon-img'} src={require('../assets/stats24.png')}/>
             <h4>Correlation to Label</h4>
           </div>
           <CorrLabel data={barData}/>
@@ -366,8 +394,9 @@ export default function Monitor() {
         <div className='plot'>
          
           <div className='plot-title' id='area'> 
+          <img className={'icon-img'} src={require('../assets/stats24.png')}/>
           <h4>Uncertainty Prediction</h4>
-              <Dropdown list={dateList} setData={setAreaDate}/>
+              <Dropdown placeholder = {'Date'} list={dateList} setData={setAreaDate}/>
           </div>
           <UncertaintyPlot data={areaData}/>
         </div>

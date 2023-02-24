@@ -14,6 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { ListItemSecondaryAction } from '@mui/material';
+import './style.css'
 
 const drawerWidth = 240;
 
@@ -44,9 +45,10 @@ export default function PermanentDrawerLeft(props) {
           <ListItem key={'3D Plot'} disablePadding>
             <ListItemButton onClick={(event) => {
                   props.scrollTo('3D')
+                  props.setToggle(!props.toggle);
                 }}>
               <ListItemIcon>
-                <InboxIcon />
+              <img className={'icon-img'} src={require('../assets/scatter-plot24.png')}/>
               </ListItemIcon>
               <ListItemText primary={'3D Plot'} />
             </ListItemButton>
@@ -54,9 +56,10 @@ export default function PermanentDrawerLeft(props) {
           <ListItem key={'Statistic Feature'} disablePadding>
             <ListItemButton onClick={(event) => {
                   props.scrollTo('stat-table')
+                  props.setToggle(!props.toggle);
                 }}>
               <ListItemIcon>
-                <InboxIcon />
+              <img className={'icon-img'} src={require('../assets/table24.png')}/>
               </ListItemIcon>
               <ListItemText primary={'Statistic Feature'} />
             </ListItemButton>
@@ -64,9 +67,10 @@ export default function PermanentDrawerLeft(props) {
           <ListItem key={'Confusion Matrix'} disablePadding>
             <ListItemButton onClick={(event) => {
                   props.scrollTo('matrix')
+                  props.setToggle(!props.toggle);
                 }}>
               <ListItemIcon>
-                <InboxIcon />
+              <img className={'icon-img'} src={require('../assets/evaluation24.png')}/>
               </ListItemIcon>
               <ListItemText primary={'Confusion Matrix'} />
             </ListItemButton>
@@ -74,9 +78,10 @@ export default function PermanentDrawerLeft(props) {
           <ListItem key={'Charts'} disablePadding>
             <ListItemButton onClick={(event) => {
                   props.scrollTo('line1')
+                  props.setToggle(!props.toggle);
                 }}>
               <ListItemIcon>
-                <InboxIcon />
+              <img className={'icon-img'} src={require('../assets/stats24.png')}/>
               </ListItemIcon>
               <ListItemText primary={'Charts'} />
             </ListItemButton>

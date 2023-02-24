@@ -14,4 +14,14 @@ body {
     margin-right: auto;
     margin-left: auto;
     margin-bottom: 100px;
+    margin-top: 10%;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: rgb(41 175 227) !important;
+    --bs-btn-border-color: rgb(41 175 227) !important;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #29afe3c7 !important;
+    --bs-btn-hover-border-color: rgb(41 175 227) !important;
 }
