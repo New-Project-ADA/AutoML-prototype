@@ -1,0 +1,11 @@
+.responsive-container{
+    width: 500px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.flex-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
