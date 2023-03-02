@@ -39,6 +39,18 @@ h3{
     border-radius: 2%;
     background-color: white;
 }
+
+.upload-container2 {
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 17%;
+  margin-bottom: 17%;
+  padding: 2%;
+  text-align: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 2%;
+  background-color: white;
+}
 .form-container{
   margin-bottom: 5%;
 }

@@ -20,6 +20,7 @@ function Navibar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Input</Nav.Link>
+            <Nav.Link href="/data-list">Data List</Nav.Link>
           </Nav>
           <Nav>
             {/* {user ? <Nav.Link href="/" onClick={logout}>Log Out</Nav.Link> : null} */}
