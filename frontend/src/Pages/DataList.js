@@ -14,7 +14,7 @@ export default function DataList() {
 
 	return (
 		<div className='body-cont'>
-            <div className='upload-container'>
+            <div className='upload-container2'>
             <div className='input-title'>
 				{/* <img className={'icon-img'} src={require('../assets/enter24.png')}/> */}
 				<h3>List of Data Inputted</h3>
