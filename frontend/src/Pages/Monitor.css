@@ -2,15 +2,19 @@
     /* padding-top: 2%;
     margin-top: 5%; */
     background-color: #f1f1f1;
-
+    margin-left: 240px;
 }
 
 .top-monitor{
-    margin-top: 7%;
-    margin-left: 32%;
-    width: 50%;
+    margin-top: 12vh;
+    /* margin-left: 240px; */
+    /* width: 50%; */
     /* border: 3px solid green; */
     /* padding: 10px; */
+}
+.chart-3d{
+    display: flex;
+    justify-content: center;
 }
 .side-top{
     width: 50%;
@@ -22,8 +26,8 @@
     padding: 5%;
     color: black;
     background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 20%;
+    margin-right: 20%;
     margin-bottom: 20%;
     text-align: center;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -41,6 +45,8 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-top: 20%;
     margin-bottom: 20%;
+    margin-right: 10%;
+    margin-left: 10%;
     background-color: white
 }
 
@@ -48,16 +54,17 @@
 .bottom-monitor{
     display: grid;
     grid-template-columns: auto auto;
-    padding: 10px;
-    grid-gap: 50px;
+    row-gap: 3vw;
+    /* padding: 10px;
+    grid-gap: 50px; */
     /* width: 50%; */
-    margin-left:16%;
+    /* margin-left:240px; */
 }
 
 .plot{
     background-color: white;
     border-radius: 5%;
-    padding: 3%;
+    padding: 5%;
     width: 90%;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin: 0 auto
@@ -66,8 +73,9 @@
 
 .plot-title{
     display: flex;
-    gap: 30px;
-    margin-left: 8px;
+    gap: 20px;
+    /* margin-left: 8px; */
+    justify-content: center;
 }
 
 /* .area-title{
@@ -104,8 +112,13 @@
   .chart-legend{
     /* position: absolute; */
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
+    gap: 15px;
+    justify-content: center;
+    /* background-color: whit   e; */
     min-width: 20vw;
     margin-right: 5vw;
     margin-left: 5vw;
+    margin-top: 15px;
+    /* width: 50%; */
   }

@@ -7,4 +7,5 @@
     background-image: linear-gradient(to bottom right,#f90183,#a41cb3) !important;
     padding: 6px;
     border-radius: 15%;
+    max-height: 36px;
 }

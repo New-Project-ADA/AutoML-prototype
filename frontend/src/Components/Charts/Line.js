@@ -22,7 +22,7 @@ const PlotFitur = (props) => {
       <div className='flex-container'>
         <div>{console.log(props.data)}</div>
         <ResponsiveContainer width="100%"height="100%">
-            <LineChart width={730} height={250} data={props.data}
+            <LineChart data={props.data}
                 margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                 <XAxis dataKey="index" />
                 <YAxis />

@@ -38,10 +38,10 @@ Python using 3.7+ version
 1. Go to the frontend directory
 2. Install the all frontend dependencies using npm: `npm install`.
 3. Run the server: `npm start`.
-4. Visit `localhost:3000/input`
+4. Visit `localhost:3000`
 
 You can visit the existing data using this
-* `localhost:3000/input/monitor/<id>`
+* `localhost:3000/monitor/<id>`
 * all the id:
     * 1
     * 2
