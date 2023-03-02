@@ -8,6 +8,7 @@ import Monitor from "./Pages/Monitor"
 import Navibar from './Components/Navibar';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import DataList from './Pages/DataList';
 // create a class that extends the component
 class App extends Component {
 
@@ -32,6 +33,7 @@ class App extends Component {
             {/* <Route path='/admin-map' element={<AdminMap url={"backend-cae2kit7uq-as.a.run.app"}/>} /> */}
             <Route path='/login' element={<Login/>} />
             <Route path='/monitor/:id' element={<Monitor/>} />
+            <Route path='/data-list' element={<DataList/>} />
         </Routes>
         </Router>
     );

@@ -2,7 +2,6 @@ import axios from 'axios';
 import './Input.css'
 import React,{useState} from 'react';
 import CustomButton from '../Components/StartButton';
-import Dropdown from '../Components/dropdown';
 
 export default function Input() {
 
@@ -139,12 +138,19 @@ export default function Input() {
                 
 				<br/>
                 <div>
-					<input class="form-control" onChange={onFileChangeC} type="file" aria-label="default input example" placeholder='Text'></input>
-					<br></br>
+					<div className='form-container'>
+					<h6>C File</h6>
+					<input class="form-control" onChange={onFileChangeC} type="file" aria-label="default input example"></input>
+					</div>
+					<div className='form-container'>
+					<h6>B File</h6>
 					<input class="form-control" onChange={onFileChangeB} type="file" aria-label="default input example"></input>
-					<br></br>
+					</div>
+					<div className='form-container'>
+					<h6>M File</h6>
 					<input class="form-control" onChange={onFileChangeM} type="file" aria-label="default input example"></input>
-                </div>
+					</div>
+				</div>
             </div>
 			{fileData()}
 		</div>

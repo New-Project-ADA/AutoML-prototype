@@ -331,11 +331,11 @@ export default function Monitor() {
             <Dropdown placeholder = {'Start Date'} list={dateList} setData={setMainStart}/>
             <Dropdown placeholder = {'End Date'} list={dateList} setData={setMainEnd}/>
         </div>
-        <div>
+        <div className='chart-3d'>
           {console.log(mainData.series)}
           <PlotlyComponent x={mainData.x} y={mainData.y} z={mainData.z} series={mainData.series}/>
-          <div className="chart-legend"><span>Series (Color): </span> <span className="bhn">o C</span><span className="bhz">o M</span><span className="bhe">o B</span></div>
         </div>
+        <div className="chart-legend"><span>Series (Color): </span> <span className="bhn">o C</span><span className="bhz">o M</span><span className="bhe">o B</span></div>
         
         <br></br>
         <div className='stat-table' id='stat-table'>

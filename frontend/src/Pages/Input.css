@@ -32,14 +32,16 @@ h3{
 .upload-container {
     margin-left: 35%;
     margin-right: 35%;
-    margin-top: 7%;
+    margin-top: 5%;
     padding: 2%;
     text-align: center;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 2%;
     background-color: white;
 }
-
+.form-container{
+  margin-bottom: 5%;
+}
 
 
 .list-data{
